@@ -21,12 +21,12 @@ char** loadSpriteFromFile(char* pathToFile){
 
     size_t lineSize =0;
     int i=0; 
-    int err = getline(&strArray[i], &linesize, file);
+    int err = getline(&strArray[i], &lineSize, file);
     while (err >= 0)
     {
         lineSize =0;
         i++;
-        err = getline(&strArray[i], &linesize, file);
+        err = getline(&strArray[i], &lineSize, file);
     }
 
     fclose(file);
