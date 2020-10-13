@@ -1,4 +1,4 @@
-# Projet2020
+# Projet C 2020
 
 ## Compiling the project
 To compile the project, a makefile is provided, and should work without any problems. This project is designed for Linux (tested on Debian), and might not work on other operating systems.
