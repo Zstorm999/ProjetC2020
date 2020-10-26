@@ -8,7 +8,7 @@ CXXFLAGS = -std=c11
 LDFLAGS =
 
 # Makefile settings - Can be customized.
-APPNAME = myapp
+APPNAME = subwaysimulator
 EXT = .c
 SRCDIR = src
 OBJDIR = obj
