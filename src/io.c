@@ -31,7 +31,6 @@ unsigned int** loadSpriteFromFile(char* pathToFile)
     {
         linesize= 0;
         err = getline(&tmpLine, &linesize, file);
-        printf("[%d]:%lc \r\n", i, L(tmpLine[0]));
         strArray[i]= tmpLine; //TODO must affectate each char individualy with the cast "L"
         i++;
     }
