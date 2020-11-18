@@ -2,6 +2,7 @@
 #define _HUMAN_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef enum Movement{IDLE, RANDOM} Movement;
 
