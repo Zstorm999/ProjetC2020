@@ -59,22 +59,11 @@ char** loadSpriteFromFile(char* pathToFile)
     return sprite;
 }
 
-void showSprite(char** sprite){
-
-    for(int i=0; i<MAX_LINES; i++){
-        for(int j=0; j<MAX_COLUMNS; j++){
-
-            printf("%c", sprite[i][j]);
-
-        }
-    }
-
-}
-
 /*print a char at the selected coordinates,
 every coordinates originates from the top left corner*/
-void placec(int x, int y, unsigned int symbol)
+void placec(int x, int y, char symbol)
 {
-    printf("\033[%d;%dH%lc", x, y, symbol); //%lc on casted L for extended char set
+    printf("\033[%d;%dH", x, y);
+    printf("%c", symbol);
     fflush(stdout);
 }

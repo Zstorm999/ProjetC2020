@@ -13,5 +13,5 @@ typedef struct sprite
     rectangle container;
     char** img;
     char** maskMap;
-    sprite* nextSprite;
+    struct sprite* nextSprite;
 } sprite;
