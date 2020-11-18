@@ -59,6 +59,13 @@ char** loadSpriteFromFile(char* pathToFile)
     return sprite;
 }
 
+void destroySprite(char** sprite){
+    for(int i=0; i< MAX_COLUMNS; i++){
+        free(sprite[i]);
+    }
+    free(sprite);
+}
+
 void showSprite(char** sprite){
 
     for(int i=0; i<MAX_LINES; i++){

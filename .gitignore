@@ -10,3 +10,4 @@ obj/train.o
 subwaysimulator.exe
 .vscode/launch.json
 .vscode/tasks.json
+.git/git.lock

@@ -6,7 +6,7 @@
 #include <locale.h>
 #include <wchar.h>
 
-#define MAX_LINES 40
+#define MAX_LINES 60
 #define MAX_COLUMNS 200
 
 char** loadSpriteFromFile(char* pathToFile);  //load a file into a matrix
