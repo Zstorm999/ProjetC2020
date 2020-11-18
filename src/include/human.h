@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-enum Movement{IDLE, RANDOM};
+typedef enum Movement{IDLE, RANDOM} Movement;
 
 typedef struct Human{
 

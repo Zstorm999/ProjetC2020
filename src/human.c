@@ -1,6 +1,6 @@
 #include "include/human.h"
 
-Human* createHuman(){
+Human* createHuman(int x, int y){
     Human* person = (Human*)malloc(sizeof(Human));
     if(!person){
         fprintf(stderr, "Error while allocating Human structure\n");
