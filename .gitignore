@@ -1,0 +1,9 @@
+func.d
+io.d
+main.d
+subwaysimulator
+train.d
+obj/func.o
+obj/io.o
+obj/main.o
+obj/train.o
