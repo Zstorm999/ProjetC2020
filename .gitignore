@@ -7,3 +7,6 @@ obj/func.o
 obj/io.o
 obj/main.o
 obj/train.o
+subwaysimulator.exe
+.vscode/launch.json
+.vscode/tasks.json
