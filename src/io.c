@@ -1,6 +1,6 @@
 #include "include/io.h"
 
-unsigned int** loadSpriteFromFile(char* pathToFile)
+char** loadSpriteFromFile(char* pathToFile)
 {
     FILE* file = fopen(pathToFile, "r");
 
@@ -10,36 +10,65 @@ unsigned int** loadSpriteFromFile(char* pathToFile)
         return NULL;
     }
 
-    unsigned int **strArray = (unsigned int**)malloc(MAX_LINES*sizeof(unsigned int*));
-    if(!strArray)
-    {
-        fprintf(stderr, "Error while allocating string\n");
-        fclose(file);
+    //allocating sprite first dimension
+    char** sprite = (char**)calloc(MAX_LINES, sizeof(char*));
+    if(!sprite){
+        fprintf(stderr, "Error while allocating sprite first dimension\n");
         return NULL;
     }
 
-    for(int i=0; i<MAX_LINES; i++)
-    {
-        strArray[i]= NULL;
+
+    for(int i=0; i<MAX_LINES; i++){
+        //allocating sprite second dimension
+        sprite[i] = (char*)calloc(MAX_COLUMNS, 1);
+        if(!sprite[i]){
+            fprintf(stderr, "Error while allocating sprite second dimension\n");
+            free(sprite);
+            //should improve memory management here
+            return NULL;
+        }
+
+        for(int j=0; j<MAX_COLUMNS; j++){
+
+            sprite[i][j] = '\0';
+        }
     }
 
-    size_t linesize =0;
-    int i= 0;
-    char err= 1;
-    unsigned int *tmpLine; //allow to do some work on the string before affecting it in its final form
-    while (err >= 0)
-    {
-        linesize= 0;
-        err = getline(&tmpLine, &linesize, file);
-        printf("[%d]:%lc \r\n", i, L(tmpLine[0]));
-        strArray[i]= tmpLine; //TODO must affectate each char individualy with the cast "L"
-        i++;
+    //now that the sprite is corectly allocated, we can fill it
+    //we use strings of 1 to 3 chars, 1 char for ascii and 3 for unicode
+
+    for(int i=0; i<MAX_LINES; i++){
+        for(int j=0; j<MAX_COLUMNS; j++){
+            char c = fgetc(file);
+
+            if(c == EOF) goto out;
+            else{
+                sprite[i][j] = c;
+
+                if(c == '\n') break; //end of line
+            }
+
+        }
     }
+
+    out:
 
     fclose(file);
     fflush(stdin);
 
-    return strArray;
+    return sprite;
+}
+
+void showSprite(char** sprite){
+
+    for(int i=0; i<MAX_LINES; i++){
+        for(int j=0; j<MAX_COLUMNS; j++){
+
+            printf("%c", sprite[i][j]);
+
+        }
+    }
+
 }
 
 /*print a char at the selected coordinates,
