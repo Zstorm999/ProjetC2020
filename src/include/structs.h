@@ -1,6 +1,6 @@
 typedef struct rectangle
 {                   //exemple:          x                               0   xMin       xMax
-    int x;          //         +--------+--------+-------------> X    0 +----+----------+--+    "xMin, xMax, yMin, yMax" are meant to select an area
+    int x;          //         +--------+--------+-------------> X    0 +----+----------+--+    "xMin, xMax, yMin, yMax" are selecting an area
     int y;          //         |        '                               |                  |    in the rectangle, relative to x, y
     int yMin;       //       y + ---    +--------+                 yMin +    +----------+  |
     int yMax;       //         |        |  rect  |                      |    |          |  |
@@ -10,7 +10,7 @@ typedef struct rectangle
 
 typedef struct sprite
 {
-    rectangle container;
+    rectangle container; //the sprite will be located at container.x, y, but displayed only for the selected area (cf rectangle)
     char** img;
     char** maskMap;
     struct sprite* nextSprite;
