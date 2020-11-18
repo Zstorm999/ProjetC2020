@@ -13,7 +13,7 @@ void showSprite(sprite sprite){
         {
             //printf("%c", sprite.img[i][j]);                                           //work
             if(((sprite.container.y+i)>=0) && ((sprite.container.x+j)>=0))
-                placec(sprite.container.y+i, sprite.container.x+j, sprite.img[i][j]);  //almost work
+                placec(sprite.container.y+i, sprite.container.x+j, sprite.img[i][j]);   //almost work
         }
     }
 }
