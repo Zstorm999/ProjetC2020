@@ -27,13 +27,7 @@ wchar_t** loadSpriteFromFile(char* pathToFile)
             //should improve memory management here
             return NULL;
         }
-
-        for(int j=0; j<MAX_COLUMNS; j++){
-            sprite[i][j]= "\0\0\0"; //FIXME core dumped, can't find i>0 for the next lines
-
-        }
     }
-    printf("passed l40-io\r\n");
     //now that the sprite is corectly allocated, we can fill it
     //we use strings of 1 to 3 chars, 1 char for ascii and 3 for unicode
 
@@ -44,17 +38,7 @@ wchar_t** loadSpriteFromFile(char* pathToFile)
             if(c == EOF) goto out;
             else
             {
-                if(c >= 0 && c <= 127)  //if ascii
-                {
-                    sprite[i][j][0]= c;
-                    sprite[i][j][1]= '\0';
-                    sprite[i][j][2]= '\0';
-                    j+= 2;
-                }
-                else {                  //if unicode
-                    sprite[i][j][0]= c; //it will overflow over 2 slots
-                }
-
+                sprite[i][j] = c;
                 if(c == '\n') break; //end of line
             }
 
