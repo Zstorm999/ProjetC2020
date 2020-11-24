@@ -1,6 +1,6 @@
 #include "include/io.h"
 
-char** loadSpriteFromFile(char* pathToFile)
+char*** loadSpriteFromFile(char* pathToFile)
 {
     FILE* file = fopen(pathToFile, "r");
 
@@ -10,8 +10,10 @@ char** loadSpriteFromFile(char* pathToFile)
         return NULL;
     }
 
+    printf("passed l13-io\r\n");
     //allocating sprite first dimension
-    char** sprite = (char**)calloc(MAX_LINES, sizeof(char*));
+    char*** sprite = (char***)calloc(MAX_LINES, sizeof(char**));
+    printf("passed l16-io\r\n");
     if(!sprite){
         fprintf(stderr, "Error while allocating sprite first dimension\n");
         return NULL;
@@ -20,7 +22,7 @@ char** loadSpriteFromFile(char* pathToFile)
 
     for(int i=0; i<MAX_LINES; i++){
         //allocating sprite second dimension
-        sprite[i] = (char*)calloc(MAX_COLUMNS, 1);
+        sprite[i] = (char**)calloc(MAX_COLUMNS, 3*sizeof(char));
         if(!sprite[i]){
             fprintf(stderr, "Error while allocating sprite second dimension\n");
             free(sprite);
@@ -29,21 +31,34 @@ char** loadSpriteFromFile(char* pathToFile)
         }
 
         for(int j=0; j<MAX_COLUMNS; j++){
-
-            sprite[i][j] = '\0';
+            sprite[i][j]= "\0\0\0"; //FIXME core dumped, can't find i>0 for the next lines
+            printf("%d:%d\r\n", i, j);
         }
     }
-
+    printf("passed l40-io\r\n");
     //now that the sprite is corectly allocated, we can fill it
     //we use strings of 1 to 3 chars, 1 char for ascii and 3 for unicode
 
-    for(int i=0; i<MAX_LINES; i++){
-        for(int j=0; j<MAX_COLUMNS; j++){
-            char c = fgetc(file);
-
+    for(int i=0; i<MAX_LINES; i++)
+    {
+        for(int j=0; j<MAX_COLUMNS; j++)
+        {
+            printf("passed l45-io\r\n");
+            long int c = fgetc(file);
+            printf("%d:%d\r\n", i, j);
             if(c == EOF) goto out;
-            else{
-                sprite[i][j] = c;
+            else
+            {
+                if(c >= 0 && c <= 127)  //if ascii
+                {
+                    sprite[i][j][0]= c;
+                    sprite[i][j][1]= '\0';
+                    sprite[i][j][2]= '\0';
+                    j+= 2;
+                }
+                else {                  //if unicode
+                    sprite[i][j][0]= c; //it will overflow over 2 slots
+                }
 
                 if(c == '\n') break; //end of line
             }
@@ -67,9 +82,9 @@ void destroySprite(char** sprite){
 }
 /*print a char at the selected coordinates,
 every coordinates originates from the top left corner*/
-void placec(int x, int y, char symbol)
+void placec(int x, int y, char* symbol)
 {
     printf("\033[%d;%dH", x, y);
-    printf("%c", symbol);
+    printf("%s", symbol);
     fflush(stdout);
 }
