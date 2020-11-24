@@ -1,4 +1,5 @@
 #include "include/io.h"
+#include <stdio.h>
 
 wchar_t** loadSpriteFromFile(char* pathToFile)
 {
@@ -62,9 +63,8 @@ void destroySprite(int** sprite){
 
 /*print a char at the selected coordinates,
 every coordinates originates from the top left corner*/
-void placec(int x, int y, unsigned int symbol)
+void placec(int x, int y, wchar_t symbol)
 {
-    printf("\033[%d;%dH", x, y);
+    wprintf(L"\033[%d;%dH", x, y);
     wprintf(L"%lc", symbol);
-    fflush(stdout);
 }

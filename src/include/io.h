@@ -10,6 +10,6 @@
 #define MAX_COLUMNS 200
 
 wchar_t** loadSpriteFromFile(char* pathToFile);  //load a file into a matrix
-void placec(int x, int y, unsigned int symbol);  //print a char at the selected loccation
+void placec(int x, int y, wchar_t symbol);  //print a char at the selected loccation
 
 #endif //_IO_H
