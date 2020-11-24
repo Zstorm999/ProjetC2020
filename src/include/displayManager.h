@@ -3,4 +3,5 @@
 
 #include "structs.h"
 
-void showSprite(sprite sprite);
+sprite initDisp();
+void showSprite(sprite sprite, char cascade); //display a sprite, trimed and colored, and updates the dependencies if cascade is set to 1

@@ -9,7 +9,7 @@
 #define LANE_TOP 15;
 #define LANE_BOT 19;
 #define TRAIN_SIZE 106;
-#define BASE_POSX 12;
+#define BASE_POSX 0; //12;
 
 typedef struct _Train Train;
 struct _Train{
