@@ -11,7 +11,7 @@ typedef struct rectangle
 typedef struct sprite
 {
     rectangle container;        //the sprite will be located at container.x, y, but displayed only for the selected area (cf rectangle)
-    char*** img;              //mapped on ** and the last array is to store unicode if needed
+    wchar_t** img;
     char** maskMap;
     struct sprite** nextSprite; //while rendering a sprite, we must make sure to render every sprites that are overlaying it
 } sprite;
