@@ -3,5 +3,4 @@
 
 #include "structs.h"
 
-void init();
 void showSprite(sprite sprite);

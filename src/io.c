@@ -30,7 +30,6 @@ wchar_t** loadSpriteFromFile(char* pathToFile)
         }
     }
     //now that the sprite is corectly allocated, we can fill it
-    //we use strings of 1 to 3 chars, 1 char for ascii and 3 for unicode
 
     for(int i=0; i<MAX_LINES; i++){
         for(int j=0; j<MAX_COLUMNS; j++){
@@ -63,8 +62,68 @@ void destroySprite(int** sprite){
 
 /*print a char at the selected coordinates,
 every coordinates originates from the top left corner*/
-void placec(int x, int y, wchar_t symbol)
+void placec(int x, int y, wchar_t symbol, char color)
 {
     wprintf(L"\033[%d;%dH", x, y);
+     switch(color)
+    {
+        case 'w': //white
+            wprintf(L"\033[01;37m");
+            break;
+        case 'y': //yellow
+            wprintf(L"\033[01;33m");
+    }
     wprintf(L"%lc", symbol);
+}
+
+//similar to loadSprite but less memory consuming
+char** file2Mask(char* mskFilePath)
+{
+    FILE* file = fopen(mskFilePath, "r");
+
+    if(!file)
+    {
+        fprintf(stderr, "Error while loading file in %s\n", mskFilePath);
+        return NULL;
+    }
+
+    //allocating mask first dimension
+    char** mask = (char**)calloc(MAX_LINES, sizeof(char*));
+    if(!mask){
+        fprintf(stderr, "Error while allocating mask first dimension\n");
+        return NULL;
+    }
+
+
+    for(int i=0; i<MAX_LINES; i++){
+        //allocating mask second dimension
+        mask[i] = (char*)calloc(MAX_COLUMNS, sizeof(char));
+        if(!mask[i]){
+            fprintf(stderr, "Error while allocating mask second dimension\n");
+            free(mask);
+            return NULL;
+        }
+    }
+
+    for(int i=0; i<MAX_LINES; i++)
+    {
+        for(int j=0; j<MAX_COLUMNS; j++)
+        {
+            char c = fgetwc(file);
+
+            if(c == EOF) goto out;
+            else
+            {
+                mask[i][j] = c;
+                if(c == '\n') break; //end of line
+            }
+
+        }
+    }
+
+    out:
+    fclose(file);
+    fflush(stdin);
+
+    return mask;
 }
