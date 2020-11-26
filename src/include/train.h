@@ -13,10 +13,11 @@
 
 typedef struct _Train Train;
 struct _Train{
-    sprite sprite;
+    sprite spriteTrain;
 
     bool visible;
     float velocity; //positive = left to right, negative = right to left
+    sprite* toUpdateFirst; //is used to rebuild the background while updating location
 };
 
 //creates a new Train
@@ -24,5 +25,6 @@ struct _Train{
 //line should be 0 for top lane, and 1 for bottom lane
 Train* train_create(int lane);
 void train_destroy(Train* train);
+Train** initTrains();
 
 #endif //_TRAIN_H

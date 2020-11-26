@@ -18,6 +18,7 @@ typedef struct sprite
     char color;
     char** maskMap;
     struct sprite** nextSprite; //while rendering a sprite, we must make sure to render every sprites that are overlaying it
+    wchar_t* spriteName;        //mainly for debuging purpose
 } sprite;
 
 #endif //_STRUCT_H
