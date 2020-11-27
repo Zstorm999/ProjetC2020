@@ -13,4 +13,6 @@ wchar_t** loadSpriteFromFile(char* pathToFile);         //load a file into a mat
 void placec(int x, int y, wchar_t symbol, char color);  //print a char at the selected loccation
 char** file2Mask(char* mskFilePath);                    //load a simple file into a matrix used as mask
 
+void debug(const char* message);
+
 #endif //_IO_H

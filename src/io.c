@@ -132,3 +132,16 @@ char** file2Mask(char* mskFilePath)
 
     return mask;
 }
+
+void debug(const char* message){
+    FILE* f = fopen("debug.log", "a");
+
+    if(!f){
+        fprintf(stderr, "error while opening error file\n");
+        return;
+    }
+
+    fprintf(f, message);
+
+    fclose(f);
+}

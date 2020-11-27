@@ -3,7 +3,7 @@
 #include "include/menu.h"
 #include "include/structs.h"
 #include "include/train.h"
-#include "menu.h"
+#include "include/human.h"
 
 int main()
 {
@@ -18,6 +18,9 @@ int main()
     Train** Trains= initTrains();
     //showSprite(Trains[0]->spriteTrain, 1);
     */
+    Human* person = createHuman(50, 10);
+    showSprite(person->sprite, 1);
+
     return 0;
 }
 
