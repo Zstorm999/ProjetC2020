@@ -4,7 +4,7 @@
 #include "include/structs.h"
 #include <stdlib.h>
 
-void drawBoundaries(rectangle* shape)
+void drawBoundaries(Rectangle* shape)
 {
     char colo= 'w'; //color
     int i;
@@ -99,7 +99,7 @@ int menuDown(Choice* FirstItem){
 
 int navigate(Choice *FirstItem)
 {
-    
+
     return 0;
 }
 
@@ -115,7 +115,7 @@ int manageMenu()
     drawChoice(cLaunchFast);
     drawChoice(cQuit);
 
-    rectangle* border = (rectangle*)malloc(sizeof(rectangle));
+    Rectangle* border = (Rectangle*)malloc(sizeof(Rectangle));
     border->xMin= 0; border->xMax= FULL_WIDTH;
     border->yMin= 0; border->yMax= FULL_HEIGHT;
     drawBoundaries(border);
