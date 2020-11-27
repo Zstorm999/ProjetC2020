@@ -69,19 +69,19 @@ Train** initTrains()
     Trains[0]->spriteTrain.nextSprite[0]= &Trains[1]->spriteTrain;
 
     //setup the wall obstructions (tunnel partialy hiding the train)
-    sprite wallLeft= getBackground();   //get the wall out of the original bg map
-    wallLeft.container.xMax= 6;
-    wallLeft.container.yMin= 21;
-    wallLeft.container.yMax= 26;
-    wallLeft.spriteName= L"BG Chunk Wall Left";
-    Trains[1]->spriteTrain.nextSprite[0]= &wallLeft;
-    sprite wallRight= getBackground();  //get the wall out of the original bg map
-    wallRight.container.xMin= 125;
-    wallRight.container.yMin= 21;
-    wallRight.container.yMax= 26;
-    wallRight.spriteName= L"BG Chunk Wall Right";
-    Trains[1]->spriteTrain.nextSprite[1]= &wallRight;
+    sprite* wallLeft= getBackground();   //get the wall out of the original bg map
+    wallLeft->container.xMax= 6;
+    wallLeft->container.yMin= 21;
+    wallLeft->container.yMax= 26;
+    wallLeft->spriteName= L"BG Chunk Wall Left";
+    Trains[1]->spriteTrain.nextSprite[0]= wallLeft;
+    sprite* wallRight= getBackground();  //get the wall out of the original bg map
+    wallRight->container.xMin= 125;
+    wallRight->container.yMin= 21;
+    wallRight->container.yMax= 26;
+    wallRight->spriteName= L"BG Chunk Wall Right";
+    Trains[1]->spriteTrain.nextSprite[1]= wallRight;
     
-    showSprite(Trains[0]->spriteTrain, 1);//!!!TO REMOVE
+    //showSprite(Trains[0]->spriteTrain, 1);//!!!TO REMOVE
     return Trains;
 }

@@ -9,8 +9,8 @@ int main()
     setlocale(LC_ALL, "");
     initDisp();
 
-    Train** Trains= initTrains();
-    //showSprite(Trains[0]->spriteTrain, 1);
+    Train** trains = initTrains();
+    showSprite(trains[0]->spriteTrain, 1);
 
     return 0;
 }
