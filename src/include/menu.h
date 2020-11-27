@@ -23,7 +23,7 @@ struct _Choice{
     Choice* next;
 };
 
-void drawBoundaries(Rectangle* shape);
+void drawBox(Rectangle* shape);
 void drawTitle();
 Choice* appendNewChoice(Choice* prev, wchar_t* text);
 void drawChoice(Choice* item);

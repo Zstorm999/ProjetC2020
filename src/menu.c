@@ -3,8 +3,9 @@
 #include "include/displayManager.h"
 #include "include/structs.h"
 #include <stdlib.h>
+#include <linux/input.h>
 
-void drawBoundaries(Rectangle* shape)
+void drawBox(Rectangle* shape)
 {
     char colo= 'w'; //color
     int i;
@@ -99,7 +100,10 @@ int menuDown(Choice* FirstItem){
 
 int navigate(Choice *FirstItem)
 {
+    while(1)
+    {
 
+    }
     return 0;
 }
 
@@ -118,7 +122,7 @@ int manageMenu()
     Rectangle* border = (Rectangle*)malloc(sizeof(Rectangle));
     border->xMin= 0; border->xMax= FULL_WIDTH;
     border->yMin= 0; border->yMax= FULL_HEIGHT;
-    drawBoundaries(border);
+    drawBox(border);
 
     menuDown(cLaunchClassic);
 

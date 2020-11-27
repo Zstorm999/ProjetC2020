@@ -16,10 +16,9 @@ int main()
     /*initDisp();
 
     Train** Trains= initTrains();
-    //showSprite(Trains[0]->spriteTrain, 1);
-    */
+    showSprite(Trains[0]->spriteTrain, 1);
     Human* person = createHuman(50, 10);
-    showSprite(person->sprite, 1);
+    showSprite(person->sprite, 1);*/
 
     return 0;
 }
