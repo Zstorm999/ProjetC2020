@@ -1,6 +1,8 @@
 #ifndef _STRUCTS_H
 #define _STRUCTS_H
 
+#include <wchar.h>
+
 typedef struct rectangle
 {                   //exemple:          x                               0   xMin       xMax
     int x;          //         +--------+--------+-------------> X    0 +----+----------+--+    "xMin, xMax, yMin, yMax" are selecting an area

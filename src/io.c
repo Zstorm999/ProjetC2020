@@ -1,5 +1,6 @@
 #include "include/io.h"
 #include <stdio.h>
+#include <wchar.h>
 
 wchar_t** loadSpriteFromFile(char* pathToFile)
 {
@@ -72,6 +73,10 @@ void placec(int x, int y, wchar_t symbol, char color)
             break;
         case 'y': //yellow
             wprintf(L"\033[01;33m");
+            break;
+        case 'r':
+            wprintf(L"\033[01;31m");
+            break;
     }
     wprintf(L"%lc", symbol);
 }
