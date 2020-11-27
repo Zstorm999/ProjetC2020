@@ -1,6 +1,7 @@
 #include "include/displayManager.h"
 #include "include/io.h"
 #include "include/train.h"
+#include "include/human.h"
 
 int main()
 {
@@ -9,8 +10,8 @@ int main()
     setlocale(LC_ALL, "");
     initDisp();
 
-    Train** trains = initTrains();
-    showSprite(trains[0]->spriteTrain, 1);
+    Human* person = createHuman(50, 10);
+    showSprite(person->sprite, 1);
 
     return 0;
 }

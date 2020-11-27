@@ -8,7 +8,6 @@ void initDisp()
 
 void showSprite(sprite sprite, char cascade)
 {
-    debug("writing a new sprite\n");
     for(int i=sprite.container.yMin; i<sprite.container.yMax; i++)
     {
         for(int j=sprite.container.xMin; j<sprite.container.xMax; j++)
