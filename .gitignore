@@ -13,3 +13,4 @@ subwaysimulator.exe
 .git/git.lock
 *.d
 *.o
+debug.log
