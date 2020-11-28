@@ -36,11 +36,11 @@ int main()
         char key = key_pressed();
         switch (key)
         {
-        case 'q':
-            placec(MAX_LINES, 0, '\n', 'w');
-            goto quit;
-        default:
-            break;
+            case 'q':
+                placec(MAX_LINES, 0, '\n', 'w');
+                goto quit;
+            default:
+                break;
         }
 
         //manage display here

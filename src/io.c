@@ -63,9 +63,9 @@ void destroySprite(int** sprite){
 
 /*print a char at the selected coordinates,
 every coordinates originates from the top left corner*/
-void placec(int x, int y, wchar_t symbol, char color)
+void placec(int y, int x, wchar_t symbol, char color)
 {
-    wprintf(L"\033[%d;%dH", x, y);
+    wprintf(L"\033[%d;%dH", y, x);
      switch(color)
     {
         case 'w': //white
