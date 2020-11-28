@@ -1,22 +1,24 @@
 #include "include/displayManager.h"
 #include "include/io.h"
+#include "include/menu.h"
+#include "include/structs.h"
 #include "include/train.h"
+#include "include/human.h"
 
 int main()
 {
     system("clear");
 
     setlocale(LC_ALL, "");
-    sprite BgScrap= initDisp();
+    
+    manageMenu(); // return 0: classic mode, return 1: fast mode (because it's easy to implement ^^)
+    
+    initDisp();
 
-    Train* TrainUpper= train_create(0);
-    Train* TrainLower= train_create(1);
-    TrainUpper->sprite.nextSprite[0]= &TrainLower->sprite;
-    BgScrap.container.xMax= 6;                  //set up wall obstruction on the left
-    BgScrap.container.yMin= 21;                 //
-    BgScrap.container.yMax= 26;                 //
-    TrainLower->sprite.nextSprite[0]= &BgScrap; //
-    showSprite(TrainUpper->sprite, 1);
+    Train** Trains= initTrains();
+    showSprite(Trains[0]->spriteTrain, 1);
+    Human* person = createHuman(50, 10);
+    showSprite(person->sprite, 1);
 
     return 0;
 }

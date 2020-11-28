@@ -1,5 +1,6 @@
 #include "include/io.h"
 #include <stdio.h>
+#include <wchar.h>
 
 wchar_t** loadSpriteFromFile(char* pathToFile)
 {
@@ -72,6 +73,10 @@ void placec(int x, int y, wchar_t symbol, char color)
             break;
         case 'y': //yellow
             wprintf(L"\033[01;33m");
+            break;
+        case 'r':
+            wprintf(L"\033[01;31m");
+            break;
     }
     wprintf(L"%lc", symbol);
 }
@@ -126,4 +131,36 @@ char** file2Mask(char* mskFilePath)
     fflush(stdin);
 
     return mask;
+}
+
+void debug(const char* message){
+    FILE* f = fopen("debug.log", "a");
+
+    if(!f){
+        fprintf(stderr, "error while opening error file\n");
+        return;
+    }
+
+    fprintf(f, message);
+
+    fclose(f);
+}
+
+char key_pressed(){
+  struct termios oldterm, newterm;
+  int oldfd; 
+  char c, result = 0;
+  tcgetattr (STDIN_FILENO, &oldterm);
+  newterm = oldterm; newterm.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr (STDIN_FILENO, TCSANOW, &newterm);  
+  oldfd = fcntl(STDIN_FILENO, F_GETFL, 0);
+  fcntl (STDIN_FILENO, F_SETFL, oldfd | O_NONBLOCK);
+  c = getchar();
+  tcsetattr (STDIN_FILENO, TCSANOW, &oldterm);
+  fcntl (STDIN_FILENO, F_SETFL, oldfd);
+  if (c != EOF) {
+    ungetc(c, stdin);
+    result = getchar();
+  }
+  return result;
 }

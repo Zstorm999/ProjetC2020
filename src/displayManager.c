@@ -1,20 +1,9 @@
 #include "include/displayManager.h"
-#include "include/io.h"
-#include <stdlib.h>
-#include <wchar.h>
 
-sprite initDisp()
+void initDisp()
 {
-    sprite Bg;
-    Bg.img= loadSpriteFromFile("data/staticMap.txt");
-    Bg.container.x= Bg.container.y= Bg.container.xMin= Bg.container.yMin= 0;
-    Bg.container.xMax= MAX_COLUMNS;
-    Bg.container.yMax= MAX_LINES;
-    Bg.maskMap= NULL;
-    Bg.color= 'w';
-    Bg.nextSprite= calloc(1, sizeof(sprite*));
-    showSprite(Bg, 0);
-    return Bg;
+    sprite* Bg= getBackground();
+    showSprite(*Bg, 0);
 }
 
 void showSprite(sprite sprite, char cascade)
@@ -31,11 +20,32 @@ void showSprite(sprite sprite, char cascade)
     
     if(cascade==1)
     {
-        int i= 0;
-        while(sprite.nextSprite[i]!= 0)
+        if(sprite.nextSprite!=NULL)
         {
-            showSprite(*sprite.nextSprite[i], 1);
-            i++;
+            int i= 0;
+            while(sprite.nextSprite[i]!= NULL)
+            {
+                showSprite(*sprite.nextSprite[i], 1);
+                i++;
+            }
         }
     }
+}
+
+sprite* getBackground()
+{
+    sprite* Bg = (sprite*)malloc(sizeof(sprite));
+    if(!Bg){
+        fprintf(stderr, "error while creating background\n");
+        return NULL;
+    }
+
+    Bg->img= loadSpriteFromFile("data/staticMap.txt");
+    setRectDims(&(Bg->container), 0, 0, 0, MAX_COLUMNS, 0, MAX_LINES);
+
+    Bg->maskMap= NULL;
+    Bg->color= 'w';
+    Bg->nextSprite= NULL;
+    Bg->spriteName= L"BG Default";
+    return Bg;
 }
