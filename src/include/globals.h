@@ -3,13 +3,13 @@
 
 #include <stdbool.h>
 
-int Global_TrainUpNextStop; //remaining time before up train arrives
-int Global_TrainDownNextStop; //remaining time before down train arrives
+extern int Global_TrainUpNextStop; //remaining time before up train arrives
+extern int Global_TrainDownNextStop; //remaining time before down train arrives
 
-bool Global_TrainUpIsArrived;
-bool Global_TrainDownIsArrived;
+extern bool Global_TrainUpIsArrived;
+extern bool Global_TrainDownIsArrived;
 
-char** Global_ObjectMap;
+extern char** Global_ObjectMap;
 
 #define FRAMERATE 5
 #define TICK_INTERVAL 1000000/FRAMERATE
