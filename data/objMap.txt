@@ -15,7 +15,7 @@
       0                                                                                                                     0       
       0                                                                                                                     0      
       0                                                                                                                     0     
-      01111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110  
+      011111111111111111111111MMMMM111111111111111111MMMMM1111111111111111MMMMM111111111111111111MMMMM11111111111111111111110  
       0ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd0    
                                                                                                                                  
                                                                                                                                    
@@ -23,15 +23,15 @@
                                                                                                                                     
                                                                                                                               
                                                                                                                              
-     0dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd0
-     011111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110
-     0                                                                                                                      0
-     0                                                                                                                      0      
-     0                                                                                                                      0
-     0                                                                                                                      0
-     0                                                                                                                      0
-     0                                                                                                                      0
-     0                                                                                                                      0
-     0                                                0EEEE0                                                                0 
-     0000000000000000000000s0s0s0s000000000s0s0s0s00000000000000000000000000s0s0s0s00000000000s0s0s0s000000000000000000000000
+      0ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd0
+      01111111111111111111111MMMMM111111111111111111MMMMM1111111111111111MMMMM111111111111111111MMMMM111111111111111111111110
+      0                                                                                                                     0
+      0                                                                                                                     0      
+      0                                                                                                                     0
+      0                                                                                                                     0
+      0                                                                                                                     0
+      0                                                                                                                     0
+      0                                                                                                                     0
+      0                                               0EEEE0                                                                0 
+      000000000000000000000s0s0s0s000000000s0s0s0s00000000000000000000000000s0s0s0s00000000000s0s0s0s000000000000000000000000
                           000000000       000000000                        000000000         000000000

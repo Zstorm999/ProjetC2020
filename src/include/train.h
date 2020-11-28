@@ -17,7 +17,7 @@ struct _Train{
 
     bool visible;
     float velocity;         //positive = left to right, negative = right to left
-    sprite** toUpdateFirst; //is used to rebuild the background while updating location (not automated)
+    sprite* toUpdateFirst; //is used to rebuild the background while updating location (not automated)
 };
 
 //creates a new Train

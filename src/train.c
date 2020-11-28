@@ -69,8 +69,9 @@ Train** initTrains()
     Trains[1]= train_create(1); //train down
     Trains[0]->spriteTrain.nextSprite[0]= &Trains[1]->spriteTrain;
 
-    Trains[1]->toUpdateFirst= (sprite**)calloc(MAX_ELEM_ON_ROW, sizeof(sprite*));
-    Trains[1]->toUpdateFirst[0]= &(Trains[0]->spriteTrain);
+    Trains[1]->toUpdateFirst= (sprite*)calloc(MAX_ELEM_ON_ROW, sizeof(sprite));
+    Trains[1]->toUpdateFirst[0]= Trains[0]->spriteTrain;
+    Trains[0]->toUpdateFirst[1]= *getBackground();
 
     //setup the wall obstructions (tunnel partialy hiding the train)
     sprite* wallLeft= getBackground();   //get the wall out of the original bg map
