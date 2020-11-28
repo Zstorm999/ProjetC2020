@@ -41,9 +41,6 @@ sprite* getBackground()
     }
 
     Bg->img= loadSpriteFromFile("data/staticMap.txt");
-    /*Bg.container.x= Bg.container.y= Bg.container.xMin= Bg.container.yMin= 0;
-    Bg.container.xMax= MAX_COLUMNS;
-    Bg.container.yMax= MAX_LINES;*/
     setRectDims(&(Bg->container), 0, 0, 0, MAX_COLUMNS, 0, MAX_LINES);
 
     Bg->maskMap= NULL;
