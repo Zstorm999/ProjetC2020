@@ -172,11 +172,12 @@ int manageMenu()
 
     //navigation
     int choiceRank= navigateMenu(cLaunchClassic);
+
+    //end
+    system("clear");
     if(choiceRank==2) //terminate the program if "quit" is picked (fluidity concerns => no prompt)
     {
-        system("clear");
         exit(0);
     }
-
     return choiceRank;
 }
