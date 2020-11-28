@@ -25,11 +25,31 @@ void destroyHuman(Human* person){
 
 //returns 1 on success, 0 on failure
 int tryMove(Human* person, int xtry, int ytry){
+    //converting coords 
+    int futureX = person->sprite.container.x + xtry;
+    int futureY = person->sprite.container.y + ytry + 2;
+
+    char obj = Global_ObjectMap[futureY][futureX];
+    char msg[100];
+    sprintf(msg, " : %d\n", obj);
+    debug(msg);
+
+    if(obj != '0' && obj != 'd'){
+        debug("Entered\n");
+        person->sprite.container.x += xtry;
+        person->sprite.container.y += ytry;
+
+        return 1;
+    }
+
     return 0;
 }
 
 void moveHuman(Human* person){
     int next = rand()%100;
+    char msg[100];
+    sprintf(msg, "%d : %d %d\n", next, person->sprite.container.x, person->sprite.container.y);
+    debug(msg);
 
     switch (person->movType)
     {
@@ -62,6 +82,9 @@ void moveHuman(Human* person){
             if(!tryMove(person, 0, 1))
                 if(!tryMove(person, -1, 0))
                     tryMove(person, 1, 0);
+
+        person->movType = RANDOM;
+        break;
 
     default:
         break;

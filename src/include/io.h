@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include "globals.h"
+
 #define MAX_LINES 60
 #define MAX_COLUMNS 200
 
@@ -16,6 +18,7 @@ wchar_t** loadSpriteFromFile(char* pathToFile);         //load a file into a mat
 void placec(int x, int y, wchar_t symbol, char color);  //print a char at the selected loccation
 char** file2Mask(char* mskFilePath);                    //load a simple file into a matrix used as mask
 char key_pressed();
+void loadObjectMap(char* path);
 
 void debug(const char* message);
 
