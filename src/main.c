@@ -11,14 +11,14 @@ int main()
 
     setlocale(LC_ALL, "");
     
-    manageMenu();
+    manageMenu(); // return 0: classic mode, return 1: fast mode (because it's easy to implement ^^)
     
-    /*initDisp();
+    initDisp();
 
     Train** Trains= initTrains();
     showSprite(Trains[0]->spriteTrain, 1);
     Human* person = createHuman(50, 10);
-    showSprite(person->sprite, 1);*/
+    showSprite(person->sprite, 1);
 
     return 0;
 }

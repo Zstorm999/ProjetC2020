@@ -4,6 +4,7 @@
 #include "include/structs.h"
 #include <stdlib.h>
 #include <linux/input.h>
+#include <wchar.h>
 
 void drawBox(Rectangle* shape)
 {
@@ -81,6 +82,23 @@ void drawChoice(Choice* item)
     }
 }
 
+int menuUp(Choice* FirstItem){
+    Choice* currSel= FirstItem; //currently selected
+    while(!currSel->selected)   //look for the selected item
+    {
+        currSel= currSel->next;
+    }
+    if(currSel->prev!=NULL)
+    {
+        currSel->selected= false;
+        currSel->prev->selected= true;
+        drawChoice(currSel);
+        drawChoice(currSel->prev);
+        currSel= currSel->prev;
+    }
+    return currSel->rank;
+}
+
 int menuDown(Choice* FirstItem){
     Choice* currSel= FirstItem; //currently selected
     while(!currSel->selected)   //look for the selected item
@@ -96,15 +114,42 @@ int menuDown(Choice* FirstItem){
         currSel= currSel->next;
     }
     return currSel->rank;
-} 
+}
 
-int navigate(Choice *FirstItem)
+int navigateMenu(Choice* FirstItem)
 {
-    while(1)
+    Choice currSel= *FirstItem;
+    while(!currSel.selected)   //look for the selected item
     {
-
+        currSel= *currSel.next;
     }
-    return 0;
+    int rankSelected= currSel.rank;
+    char currKey;
+    while(currKey!='\n')
+    {
+        currKey= '\0';
+        while(currKey=='\0')
+        {
+            currKey= key_pressed();
+        }
+        if(currKey==27)
+        {
+            if(key_pressed()==91)
+            {              //to press an arrow key send the sequence 27, 91, [65..68]
+                char arrowKey= key_pressed();   //65:up, 66:down, 68:left, 67:right
+                switch (arrowKey)
+                {
+                    case 65: //arrow up
+                        rankSelected= menuUp(FirstItem);
+                        break;
+                    case 66: //arrow down
+                        rankSelected= menuDown(FirstItem);
+                        break;
+                }
+            }
+        }
+    }
+    return rankSelected;
 }
 
 int manageMenu()
@@ -125,6 +170,14 @@ int manageMenu()
     drawBox(border);
 
     menuDown(cLaunchClassic);
+    int choiceRank= navigateMenu(cLaunchClassic);
 
-    return 0;
+    //terminate the program if "quit" is choosen (fluidity concerns: no prompt)
+    if(choiceRank==2)
+    {
+        system("clear");
+        exit(0);
+    }
+
+    return choiceRank;
 }
