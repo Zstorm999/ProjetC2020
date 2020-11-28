@@ -154,6 +154,7 @@ int navigateMenu(Choice* FirstItem)
 
 int manageMenu()
 {
+    //display
     drawTitle();
 
     Choice* cLaunchClassic= appendNewChoice(NULL, L"Start in classic mode");
@@ -169,11 +170,9 @@ int manageMenu()
     border->yMin= 0; border->yMax= FULL_HEIGHT;
     drawBox(border);
 
-    menuDown(cLaunchClassic);
+    //navigation
     int choiceRank= navigateMenu(cLaunchClassic);
-
-    //terminate the program if "quit" is choosen (fluidity concerns: no prompt)
-    if(choiceRank==2)
+    if(choiceRank==2) //terminate the program if "quit" is picked (fluidity concerns => no prompt)
     {
         system("clear");
         exit(0);
