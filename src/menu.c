@@ -157,18 +157,18 @@ int manageMenu()
     //display
     drawTitle();
 
-    Choice* cLaunchClassic= appendNewChoice(NULL, L"Start in classic mode");
-    Choice* cLaunchFast= appendNewChoice(cLaunchClassic, L"Start in fast mode");
-    Choice* cQuit= appendNewChoice(cLaunchFast, L"Quit");
-
-    drawChoice(cLaunchClassic);
-    drawChoice(cLaunchFast);
-    drawChoice(cQuit);
-
     Rectangle* border = (Rectangle*)malloc(sizeof(Rectangle));
     border->xMin= 0; border->xMax= FULL_WIDTH;
     border->yMin= 0; border->yMax= FULL_HEIGHT;
     drawBox(border);
+
+    Choice* cLaunchClassic= appendNewChoice(NULL, L"Start in classic mode");
+    Choice* cLaunchFast= appendNewChoice(cLaunchClassic, L"Start in fast mode");
+    Choice* cQuit= appendNewChoice(cLaunchFast, L"Quit");
+
+    drawChoice(cQuit);
+    drawChoice(cLaunchFast);
+    drawChoice(cLaunchClassic);
 
     //navigation
     int choiceRank= navigateMenu(cLaunchClassic);
