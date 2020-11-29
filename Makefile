@@ -44,7 +44,7 @@ $(APPNAME): $(OBJ)
 
 # Building rule for .o files and its .c in combination with all .h
 $(OBJDIR)/%.o: $(SRCDIR)/%$(EXT)
-	$(CC) $(CXXFLAGS) -o $@ -c $<
+	$(CC) $(CXXFLAGS) -o $@ -c $< -O3
 
 ################### Cleaning rules for Unix-based OS ###################
 # Cleans complete project

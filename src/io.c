@@ -1,6 +1,8 @@
 #include "include/io.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <wchar.h>
+#include "include/globals.h"
 
 wchar_t** loadSpriteFromFile(char* pathToFile)
 {
@@ -63,9 +65,9 @@ void destroySprite(int** sprite){
 
 /*print a char at the selected coordinates,
 every coordinates originates from the top left corner*/
-void placec(int x, int y, wchar_t symbol, char color)
+void placec(int y, int x, wchar_t symbol, char color)
 {
-    wprintf(L"\033[%d;%dH", x, y);
+    wprintf(L"\033[%d;%dH", y, x);
      switch(color)
     {
         case 'w': //white
@@ -168,27 +170,29 @@ char key_pressed(){
     return result;
 }
 
-void loadObjectMap(char* path){
+char** loadObjectMap(char* path){
     FILE* f = fopen(path, "r");
+
     if(!f){
         fprintf(stderr, "Unable to open file %s\n", path);
-        return;
+        return NULL;
     }
 
-    Global_ObjectMap = (char**)calloc(MAX_LINES, sizeof(char*));
-    if(!Global_ObjectMap){
+    char** objectMap;
+    objectMap = (char**)calloc(MAX_LINES, sizeof(char*));
+    if(!objectMap){
         fprintf(stderr, "Error while creating object map first dimension\n");
         fclose(f);
-        return;
+        return NULL;
     }
 
 
     for(int i=0; i<MAX_LINES; i++){
-        Global_ObjectMap[i] = (char*)calloc(MAX_COLUMNS, sizeof(char));
-        if(!Global_ObjectMap[i]){
+        objectMap[i] = (char*)calloc(MAX_COLUMNS, sizeof(char));
+        if(!objectMap[i]){
             fprintf(stderr, "Error while creating object map second dimension\n");
             fclose(f);
-            return;
+            return NULL;
         }
     }
 
@@ -199,7 +203,7 @@ void loadObjectMap(char* path){
 
             if(c == EOF) goto out;
             else{
-                Global_ObjectMap[i][j] = c;
+                objectMap[i][j] = c;
                 if(c == '\n') break; //newline
             }
         }
@@ -208,5 +212,5 @@ void loadObjectMap(char* path){
     out:
 
     fclose(f);
-
+    return objectMap;
 }
