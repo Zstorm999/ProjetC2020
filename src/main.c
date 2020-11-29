@@ -20,7 +20,7 @@ int main()
 
     Train** Trains= initTrains();
     Trains[0]->velocity= -1;
-    Trains[1]->velocity= 1;
+    Trains[1]->velocity= 2;
     showSprite(&Trains[0]->spriteTrain, 1);
     Human* person = createHuman(50, 10, objMap, Trains);
 

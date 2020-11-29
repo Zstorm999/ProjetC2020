@@ -3,6 +3,7 @@
 #include "include/structs.h"
 #include "include/displayManager.h"
 #include <stdlib.h>
+#include <wchar.h>
 #include "include/globals.h"
 #include "string.h"
 
@@ -81,7 +82,7 @@ Train** initTrains()
     Trains[1]= train_create(1); //train down
     Trains[0]->spriteTrain.nextSprite[0]= &Trains[1]->spriteTrain;
 
-    //to rebuild the background after a move
+    //every pieces required to rebuild the background after a move
     Trains[0]->toUpdateFirst[0]= getBackground();
     Trains[0]->toUpdateFirst[0]->container.yMin= LANE_TOP;
     Trains[0]->toUpdateFirst[0]->container.yMax= LANE_TOP+8;
@@ -92,7 +93,6 @@ Train** initTrains()
     memcpy(rebuildUpperTrain, &Trains[0]->spriteTrain, sizeof(sprite));
     rebuildUpperTrain->container.yMin= 4;
     Trains[1]->toUpdateFirst[1]= rebuildUpperTrain;
-    rebuildUpperTrain->color= 'r';
     Trains[1]->misc= &Trains[0]->spriteTrain.container.x;
 
 
@@ -117,20 +117,25 @@ void moveUpperTrain(Train* train)
 {
     if(train->visible)
     {
+        //SETUP:
         train->toUpdateFirst[0]->container.xMin= train->spriteTrain.container.x+TRAIN_SIZE-4;
         train->toUpdateFirst[0]->container.xMax= train->spriteTrain.container.x+TRAIN_SIZE-train->velocity;
 
-        int i= 0;
-        while(train->toUpdateFirst[i]!=NULL)
-        {
-            showSprite(train->toUpdateFirst[i], 0);
-            i++;
-        }
         train->spriteTrain.container.x+= train->velocity;
         
-        if(train->spriteTrain.container.x<-TRAIN_SIZE+train->velocity)
+        //CONCLUDE & DISPLAY:
+        if(train->spriteTrain.container.x < -(TRAIN_SIZE+train->velocity+1))
             train->visible= false;
-        else showSprite(&train->spriteTrain, 1);
+        else
+        {
+            int i= 0;
+            while(train->toUpdateFirst[i]!=NULL) //will print a chunck of the terrain at the back of the train an then the travelers
+            {
+                showSprite(train->toUpdateFirst[i], 0);
+                i++;
+            }
+            showSprite(&train->spriteTrain, 1);
+        }
     }
 }
 
@@ -138,30 +143,32 @@ void moveLowerTrain(Train* train)
 {
     if(train->visible)
     {
+        //SETUP:
         train->toUpdateFirst[0]->container.xMin= train->spriteTrain.container.x; //bg map
         train->toUpdateFirst[0]->container.xMax= train->spriteTrain.container.x+4;
 
-        //*train->misc is the x pos of train up
-        train->toUpdateFirst[1]->container.x= train->spriteTrain.container.x;                                                           //FIXME
-        train->toUpdateFirst[1]->container.xMin= train->spriteTrain.container.x-*(train->misc)-train->velocity; //bg train              //FIXME
-        train->toUpdateFirst[1]->container.xMax= train->spriteTrain.container.x-*(train->misc)+4;                                       //FIXME
-
-        showSprite(train->toUpdateFirst[0], 0);
-        showSprite(train->toUpdateFirst[1], 0);
+        int xUppTrain= *(train->misc); //*train->misc is the x coordinate of the upper train (initialised in "initTrains()")
+        train->toUpdateFirst[1]->container.x= xUppTrain;
+        train->toUpdateFirst[1]->container.xMin= train->spriteTrain.container.x-xUppTrain-train->velocity; //bg train
+        train->toUpdateFirst[1]->container.xMax= train->spriteTrain.container.x-xUppTrain+4;
 
         train->spriteTrain.container.x+= train->velocity;
-        
-        if(train->spriteTrain.container.x+TRAIN_SIZE > MAP_WIDTH)
+        if(train->spriteTrain.container.x+TRAIN_SIZE > MAP_WIDTH) //trim train past the end of the right tunnel
             train->spriteTrain.container.xMax-= train->velocity;
 
-        if(train->spriteTrain.container.x > (MAP_WIDTH-train->velocity))
+        //CONCLUDE & DISPLAY:
+        if(train->spriteTrain.container.x > (MAP_WIDTH - train->velocity))
         {
             train->visible= false;
         }            
         else
         {
+            showSprite(train->toUpdateFirst[0], 0); //print a chunck of terrain at the back of the train
+            if(abs(xUppTrain - train->spriteTrain.container.x) < TRAIN_SIZE)
+            {
+                showSprite(train->toUpdateFirst[1], 0); //print a chunck of the other train at the back of the train
+            }
             showSprite(&train->spriteTrain, 1);
-            showSprite(train->spriteTrain.nextSprite[1], 0);
         }
     }
 }
