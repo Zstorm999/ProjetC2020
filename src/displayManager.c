@@ -2,8 +2,10 @@
 
 void initDisp()
 {
-    sprite* Bg= getBackground();
-    showSprite(*Bg, 0);
+
+    Global_Background = NULL;
+    Global_Background = getBackground();
+    showSprite(*Global_Background, 0);
 }
 
 void showSprite(sprite sprite, char cascade)

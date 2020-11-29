@@ -36,8 +36,20 @@ int tryMove(Human* person, int xtry, int ytry){
 
     if(obj != '0' && obj != 'd'){
         debug("Entered\n");
+
+        sprite* Bg = getBackground();
+        Bg->container.x = person->sprite.container.x; 
+        Bg->container.y = person->sprite.container.y; 
+        Bg->container.xMax = person->sprite.container.xMax + 1; 
+        Bg->container.xMin = person->sprite.container.xMin;
+        Bg->container.yMax = person->sprite.container.yMax + 1;
+        Bg->container.yMin = person->sprite.container.yMin;   
+
         person->sprite.container.x += xtry;
         person->sprite.container.y += ytry;
+
+        showSprite(*Bg, 0);
+        showSprite(person->sprite, 1);
 
         return 1;
     }

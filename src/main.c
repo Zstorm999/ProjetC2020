@@ -45,7 +45,6 @@ int main()
 
         //manage display here
         moveHuman(person);
-        showSprite(person->sprite, 1);
 
         usleep(TICK_INTERVAL);
     }

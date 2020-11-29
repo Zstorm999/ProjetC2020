@@ -6,6 +6,7 @@
 #include "structs.h"
 #include "io.h"
 #include "globals.h"
+#include "displayManager.h"
 
 typedef enum Movement{SPAWNING, IDLE, RANDOM} Movement;
 
