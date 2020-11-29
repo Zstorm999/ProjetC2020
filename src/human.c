@@ -60,7 +60,7 @@ void moveHuman(Human* person){
     switch (person->movType)
     {
     case IDLE: //any idle person has a small chance of starting moving next time
-        if(next < 20) //20% chance
+        if(next < 10) //10% chance
             person->movType = RANDOM;
         break;
 
