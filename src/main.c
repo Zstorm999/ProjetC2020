@@ -13,21 +13,16 @@ int main()
 
     setlocale(LC_ALL, "");
     
-    //manageMenu(); // return 0: classic mode, return 1: fast mode (because it's easy to implement ^^)
+    manageMenu(); // return 0: classic mode, return 1: fast mode (because it's easy to implement ^^)
     
     initDisp();
-    loadObjectMap("data/objMap.txt");
+    char** objMap= loadObjectMap("data/objMap.txt");
 
-    /*for(int i=0; i<MAX_LINES; i++){
-        for(int j=0; j<MAX_COLUMNS; j++){
-            printf("%c", Global_ObjectMap[i][j]);
-        }
-        printf("\n");
-    }*/
-
-    //Train** Trains= initTrains();
-    //showSprite(Trains[0]->spriteTrain, 1);
-    Human* person = createHuman(50, 10);
+    Train** Trains= initTrains();
+    Trains[0]->velocity= -1;
+    Trains[1]->velocity= 1;
+    showSprite(&Trains[0]->spriteTrain, 1);
+    Human* person = createHuman(50, 10, objMap, Trains);
 
     srand(time(NULL));
 
@@ -45,11 +40,13 @@ int main()
 
         //manage display here
         moveHuman(person);
-        showSprite(person->sprite, 1);
+        showSprite(&person->sprite, 1);
+        
+        moveUpperTrain(Trains[0]);
+        moveLowerTrain(Trains[1]);
 
         usleep(TICK_INTERVAL);
     }
-
     quit:
 
     return 0;

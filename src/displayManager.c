@@ -3,29 +3,29 @@
 void initDisp()
 {
     sprite* Bg= getBackground();
-    showSprite(*Bg, 0);
+    showSprite(Bg, 0);
 }
 
-void showSprite(sprite sprite, char cascade)
+void showSprite(sprite* sprite, char cascade)
 {
-    for(int i=sprite.container.yMin; i<sprite.container.yMax; i++)
+    for(int i=sprite->container.yMin; i<sprite->container.yMax; i++)
     {
-        for(int j=sprite.container.xMin; j<sprite.container.xMax; j++)
+        for(int j=sprite->container.xMin; j<sprite->container.xMax; j++)
         {
-            if(((sprite.container.y+i)>=0) && ((sprite.container.x+j)>=0))
-                if(sprite.maskMap==NULL || sprite.maskMap[i][j]=='0')
-                    placec(sprite.container.y+i, sprite.container.x+j, sprite.img[i][j], sprite.color);
+            if(((sprite->container.y+i)>=0) && ((sprite->container.x+j)>=0))
+                if(sprite->maskMap==NULL || sprite->maskMap[i][j]=='0')
+                    placec(sprite->container.y+i, sprite->container.x+j, sprite->img[i][j], sprite->color);
         }
     }
     
     if(cascade==1)
     {
-        if(sprite.nextSprite!=NULL)
+        if(sprite->nextSprite!=NULL)
         {
             int i= 0;
-            while(sprite.nextSprite[i]!= NULL)
+            while(sprite->nextSprite[i]!= NULL)
             {
-                showSprite(*sprite.nextSprite[i], 1);
+                showSprite(sprite->nextSprite[i], 1);
                 i++;
             }
         }

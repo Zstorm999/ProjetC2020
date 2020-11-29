@@ -1,6 +1,7 @@
 #include "include/human.h"
+#include "include/globals.h"
 
-Human* createHuman(int x, int y){
+Human* createHuman(int x, int y, char** objMap, Train** trains){
     Human* person = (Human*)malloc(sizeof(Human));
     if(!person){
         fprintf(stderr, "Error while allocating Human structure\n");
@@ -16,6 +17,11 @@ Human* createHuman(int x, int y){
     person->sprite.nextSprite = NULL;
     person->sprite.spriteName = L"Bob";
 
+    person->objmap= objMap;
+    if(y>23) person->train= trains[1];
+    else person->train= trains[0];
+
+    return person;
 }
 
 void destroyHuman(Human* person){
@@ -29,7 +35,7 @@ int tryMove(Human* person, int xtry, int ytry){
     int futureX = person->sprite.container.x + xtry;
     int futureY = person->sprite.container.y + ytry + 2;
 
-    char obj = Global_ObjectMap[futureY][futureX];
+    char obj = person->objmap[futureY][futureX];
     char msg[100];
     sprintf(msg, " : %d\n", obj);
     debug(msg);

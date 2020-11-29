@@ -44,7 +44,7 @@ void drawTitle(){
     titleSprite->container.yMax= HEI_TITLE;
     titleSprite->color= 'w';
     titleSprite->maskMap= NULL;
-    showSprite(*titleSprite, 0);
+    showSprite(titleSprite, 0);
 }
 
 Choice* appendNewChoice(Choice* prev, wchar_t* text)

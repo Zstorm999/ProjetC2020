@@ -16,8 +16,11 @@ struct _Train{
     sprite spriteTrain;
 
     bool visible;
+    bool arrived;
+    int updatesBeforeArrival;
     float velocity;         //positive = left to right, negative = right to left
-    sprite* toUpdateFirst; //is used to rebuild the background while updating location (not automated)
+    sprite** toUpdateFirst; //is used to rebuild the background while updating location (not automated)
+    int* misc;
 };
 
 //creates a new Train
@@ -26,7 +29,8 @@ struct _Train{
 Train* train_create(int lane);
 void train_destroy(Train* train);
 Train** initTrains();
-void moveTrain(Train* train);
+void moveUpperTrain(Train* train);
+void moveLowerTrain(Train* train);
 void updateTrain(Train* train);
 void updateTrains(Train** trains);
 
