@@ -13,6 +13,11 @@
 *   LowerTrain: ----------->
 */
 
+int setUpdateCountBeforeNextArrival()
+{
+    return FRAMERATE*(MININTERVALTRAIN+(rand()%(MAXINTERVALTRAIN-MININTERVALTRAIN)));
+}
+
 Train* train_create(int lane)
 {
     //allocating memory space
@@ -23,9 +28,11 @@ Train* train_create(int lane)
     }
 
     newTrain->velocity= 0;
-    newTrain->visible= true;
+    newTrain->visible= false;
     newTrain->arrived= false;
-    newTrain->updatesBeforeArrival= FRAMERATE* (int)(40.0+(60*(rand()/RAND_MAX)));
+    
+    newTrain->updatesBeforeArrival= setUpdateCountBeforeNextArrival()/2;
+
     newTrain->spriteTrain.container.x= BASE_POSX;
     newTrain->spriteTrain.container.xMin= 0;
     newTrain->spriteTrain.container.xMax= TRAIN_SIZE;
@@ -118,18 +125,20 @@ void moveUpperTrain(Train* train)
     if(train->visible)
     {
         //SETUP:
-        train->toUpdateFirst[0]->container.xMin= train->spriteTrain.container.x+TRAIN_SIZE-4;
+        train->toUpdateFirst[0]->container.xMin= (train->spriteTrain.container.x+TRAIN_SIZE-5)+train->velocity; //piece of terrain
         train->toUpdateFirst[0]->container.xMax= train->spriteTrain.container.x+TRAIN_SIZE-train->velocity;
 
         train->spriteTrain.container.x+= train->velocity;
-        
+        if(train->spriteTrain.container.x > 0)
+            train->spriteTrain.container.xMax= MAP_WIDTH-train->spriteTrain.container.x;
+
         //CONCLUDE & DISPLAY:
-        if(train->spriteTrain.container.x < -(TRAIN_SIZE+train->velocity+1))
+        if(train->spriteTrain.container.x < -(TRAIN_SIZE-train->velocity+1))
             train->visible= false;
         else
         {
             int i= 0;
-            while(train->toUpdateFirst[i]!=NULL) //will print a chunck of the terrain at the back of the train an then the travelers
+            while(train->toUpdateFirst[i] != NULL && train->spriteTrain.container.x < MAP_WIDTH-TRAIN_SIZE-train->velocity) //will print a chunck of the terrain at the back of the train an then the travelers
             {
                 showSprite(train->toUpdateFirst[i], 0);
                 i++;
@@ -137,6 +146,7 @@ void moveUpperTrain(Train* train)
             showSprite(&train->spriteTrain, 1);
         }
     }
+    placec(45, 0, L'\0', 'r'); wprintf(L"posx: %d  ", train->spriteTrain.container.x);
 }
 
 void moveLowerTrain(Train* train)
@@ -144,13 +154,13 @@ void moveLowerTrain(Train* train)
     if(train->visible)
     {
         //SETUP:
-        train->toUpdateFirst[0]->container.xMin= train->spriteTrain.container.x; //bg map
-        train->toUpdateFirst[0]->container.xMax= train->spriteTrain.container.x+4;
+        train->toUpdateFirst[0]->container.xMin= train->spriteTrain.container.x; //piece of terrain
+        train->toUpdateFirst[0]->container.xMax= train->spriteTrain.container.x+4+train->velocity;
 
         int xUppTrain= *(train->misc); //*train->misc is the x coordinate of the upper train (initialised in "initTrains()")
         train->toUpdateFirst[1]->container.x= xUppTrain;
         train->toUpdateFirst[1]->container.xMin= train->spriteTrain.container.x-xUppTrain-train->velocity; //bg train
-        train->toUpdateFirst[1]->container.xMax= train->spriteTrain.container.x-xUppTrain+4;
+        train->toUpdateFirst[1]->container.xMax= train->spriteTrain.container.x-xUppTrain+5+train->velocity;
 
         train->spriteTrain.container.x+= train->velocity;
         if(train->spriteTrain.container.x+TRAIN_SIZE > MAP_WIDTH) //trim train past the end of the right tunnel
@@ -171,4 +181,98 @@ void moveLowerTrain(Train* train)
             showSprite(&train->spriteTrain, 1);
         }
     }
+}
+
+/**
+ * Wait for the train to arrive (count down using "updateBeforeArrival"),
+ * if the train is arrived, the countown is frozen at -1, the train apear will move each update until it reach the dead stop. 
+ * The counter will then count down the time of stop using the interval ]-1 : -FRAMERATE*(HALT_TIME)-1] and it will be notified that the train is arrived.
+ * The count down will be reseted like if an other train were to come, "arrived" will be reverted to "false",
+ * and the the train will accelerate in the other way to leave the screen.
+ */
+void updateTrainUp(Train* tr)
+{
+    //Arrival at the station: 
+    if(tr->updatesBeforeArrival==0)
+    {
+        tr->updatesBeforeArrival= -1;
+        tr->visible= true;
+        tr->spriteTrain.container.x= MAP_WIDTH;
+        tr->velocity= -4;
+    }
+    else if(tr->updatesBeforeArrival== -1 && !tr->arrived)
+    {
+        //slow down
+        if (40 < tr->spriteTrain.container.x && tr->spriteTrain.container.x < 70)
+            tr->velocity= -3;
+        else if (30 < tr->spriteTrain.container.x && tr->spriteTrain.container.x < 40)
+            tr->velocity= -2;     
+        else if (22< tr->spriteTrain.container.x && tr->spriteTrain.container.x < 30) 
+            tr->velocity= -1;
+        else if (tr->spriteTrain.container.x<22) //will move every other update
+        {
+            if (tr->clkComute)
+            {
+                tr->velocity= -1;
+                tr->clkComute= false;
+            }
+            else
+            {
+                tr->velocity= 0;
+                tr->clkComute= true;
+            }
+        }
+
+        //apply move
+        moveUpperTrain(tr);
+        if (tr->spriteTrain.container.x== 12)   //12 (30-18) is the stop positing of the upper train
+            tr->arrived= true;
+    }
+
+    //Stay still at the station:
+    if (tr->arrived)
+    {
+        tr->updatesBeforeArrival--;
+        if (tr->updatesBeforeArrival== -FRAMERATE*(HALT_TIME)-1)
+        {
+            tr->arrived= false;
+            tr->updatesBeforeArrival= setUpdateCountBeforeNextArrival();
+        }
+    }
+
+    //Leave the station:
+    if (!tr->arrived && tr->updatesBeforeArrival!= 0 && tr->updatesBeforeArrival!= -1 && tr->visible)
+    {
+        //accelerate
+        if ( 2 < tr->spriteTrain.container.x)
+        {
+            if (tr->clkComute)
+            {
+                tr->velocity= -1;
+                tr->clkComute= false;
+            }
+            else
+            {
+                tr->velocity= 0;
+                tr->clkComute= true;
+            }
+        }
+        else if (-15 < tr->spriteTrain.container.x && tr->spriteTrain.container.x < 2)
+            tr->velocity= -1;     
+        else if (-40 < tr->spriteTrain.container.x && tr->spriteTrain.container.x < -15) 
+            tr->velocity= -2;
+        else if (tr->spriteTrain.container.x < -65)
+            tr->velocity= -3;
+
+
+        //apply move
+        moveUpperTrain(tr);
+        tr->updatesBeforeArrival--;
+    }
+
+    placec(45, 0, L'\0', 'r'); wprintf(L"time: %d      ", tr->updatesBeforeArrival/FRAMERATE); //debug
+
+    //not in the station:
+    if(!tr->visible)
+        tr->updatesBeforeArrival--;
 }

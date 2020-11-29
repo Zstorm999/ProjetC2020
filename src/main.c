@@ -19,9 +19,7 @@ int main()
     char** objMap= loadObjectMap("data/objMap.txt");
 
     Train** Trains= initTrains();
-    Trains[0]->velocity= -1;
-    Trains[1]->velocity= 2;
-    showSprite(&Trains[0]->spriteTrain, 1);
+
     Human* person = createHuman(50, 10, objMap, Trains);
 
     srand(time(NULL));
@@ -42,8 +40,7 @@ int main()
         moveHuman(person);
         showSprite(&person->sprite, 1);
         
-        moveUpperTrain(Trains[0]);
-        moveLowerTrain(Trains[1]);
+        updateTrainUp(Trains[0]);
 
         usleep(TICK_INTERVAL);
     }

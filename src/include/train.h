@@ -9,7 +9,11 @@
 #define LANE_TOP 15
 #define LANE_BOT 19
 #define TRAIN_SIZE 106
-#define BASE_POSX  12;
+#define BASE_POSX  -TRAIN_SIZE;
+
+#define MININTERVALTRAIN 48    //seconds
+#define MAXINTERVALTRAIN 120
+#define HALT_TIME 24
 
 typedef struct _Train Train;
 struct _Train{
@@ -21,6 +25,7 @@ struct _Train{
     float velocity;         //positive = left to right, negative = right to left
     sprite** toUpdateFirst; //is used to rebuild the background while updating location (not automated)
     int* misc;
+    bool clkComute; //is used for very slow movement (velocity= 0.5)
 };
 
 //creates a new Train
@@ -31,7 +36,8 @@ void train_destroy(Train* train);
 Train** initTrains();
 void moveUpperTrain(Train* train);
 void moveLowerTrain(Train* train);
-void updateTrain(Train* train);
+void updateTrainUp(Train* train);
+void updateTrainDown(Train* trains);
 void updateTrains(Train** trains);
 
 #endif //_TRAIN_H

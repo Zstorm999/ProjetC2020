@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "structs.h"
 
-#define FRAMERATE 15
+#define FRAMERATE 14
 #define TICK_INTERVAL 1000000/FRAMERATE
 #define MAP_WIDTH 132
 

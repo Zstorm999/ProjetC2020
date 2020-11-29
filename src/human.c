@@ -54,8 +54,8 @@ int tryMove(Human* person, int xtry, int ytry){
         person->sprite.container.x += xtry;
         person->sprite.container.y += ytry;
 
-        showSprite(*Bg, 0);
-        showSprite(person->sprite, 1);
+        showSprite(Bg, 0);
+        showSprite(&person->sprite, 1);
 
         return 1;
     }
