@@ -7,8 +7,6 @@
 #include "include/globals.h"
 #include "string.h"
 
-#include "include/menu.h"
-
 /**
 *movements:
 *   UpperTrain: <-----------
@@ -150,6 +148,32 @@ Train** initTrains()
     //Trains[1]->spriteTrain.nextSprite[2]= Trains[1]->doorClose; //by default, doors are closed
 
     return Trains;
+}
+
+void printTime(int nbUpdates, int x, int y)
+{
+    //conversion:
+    int min, sec;
+    if(nbUpdates>0)
+    {
+        min= nbUpdates/FRAMERATE/60;
+        sec= (nbUpdates/FRAMERATE)%60;
+    }
+    else
+    {
+        min= sec= 0;
+    }
+
+    //print:
+    wprintf(L"\033[%d;%dH", y, x);
+    wprintf(L"\033[7;33m");
+    if(sec<10)
+    {
+        wprintf(L" 0%d:0%d \033[0m", min, sec); //the first digit is dead
+    }
+    else {
+        wprintf(L" 0%d:%d \033[0m", min, sec);
+    }
 }
 
 void moveUpperTrain(Train* train)
@@ -302,11 +326,12 @@ void updateTrainUp(Train* tr)
         tr->updatesBeforeArrival--;
     }
 
-    placec(44, 0, L'\0', 'r'); wprintf(L"train top: %d (~%d s)       ", tr->updatesBeforeArrival, tr->updatesBeforeArrival/FRAMERATE); //debug
-
     //not in the station:
     if(!tr->visible)
         tr->updatesBeforeArrival--;
+
+    //always:
+    printTime(tr->updatesBeforeArrival, XBASE_TIME_DISP, YBASE_TIME_DISP);
 }
 
 /**
@@ -397,11 +422,12 @@ void updateTrainDown(Train* tr)
         tr->updatesBeforeArrival--;
     }
 
-    placec(45, 0, L'\0', 'r'); wprintf(L"train bot: %d (~%d s)       ", tr->updatesBeforeArrival, tr->updatesBeforeArrival/FRAMERATE); //debug
-
     //not in the station:
     if(!tr->visible)
         tr->updatesBeforeArrival--;
+
+    //always:
+    printTime(tr->updatesBeforeArrival, XBASE_TIME_DISP, YBASE_TIME_DISP+1);
 }
 
 void updateTrains(Train** trs)

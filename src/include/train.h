@@ -10,11 +10,11 @@
 #define LANE_BOT 19
 #define TRAIN_SIZE 106
 #define BASE_POSX  -TRAIN_SIZE;
-#define TRAIN_COLOR 'R'
+#define TRAIN_COLOR 'Y'
 
-#define MININTERVALTRAIN 10 //38  //seconds, the interval betwin each train is randomized
-#define MAXINTERVALTRAIN 22 //120 //seconds
-#define HALT_TIME 3 //18         //seconds
+#define MININTERVALTRAIN 30 //38  //seconds, the interval betwin each train is randomized
+#define MAXINTERVALTRAIN 93 //120 //seconds
+#define HALT_TIME 10 //18         //seconds
 
 typedef struct _Train Train;
 struct _Train{
