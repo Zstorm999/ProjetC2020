@@ -19,7 +19,7 @@ int main()
 
     Train** Trains= initTrains();
 
-    Spawner* spawnUp = initSpawner(0, 20);
+    Spawner* spawnUp = initSpawner(0, 20, 'E');
 
     srand(time(NULL));
 

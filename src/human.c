@@ -9,8 +9,6 @@ Human* createHuman(int x, int y, Spawner* creator){
         return NULL;
     }
 
-    debug("created struct Human\n");
-
     person->sprite.img = loadSpriteFromFile("data/person.txt");
     setRectDims(&person->sprite.container, x, y, 0, 1, 0, 2);
     person->sprite.color = 'y';
@@ -18,15 +16,14 @@ Human* createHuman(int x, int y, Spawner* creator){
     person->sprite.nextSprite = NULL;
     person->sprite.spriteName = L"Bob";
 
-    debug("sprite init\n");
 
     person->movType = SPAWNING;
-
     person->next = NULL;
-
     person->creator = creator;
 
-    debug("end\n");
+    //we need at least 1 for counter to work
+    person->counter = 1 + (rand()%30);
+    person->orientation = 0;
 
     return person;
 }
@@ -37,7 +34,12 @@ void destroyHuman(Human* person){
 
 
 //returns 1 on success, 0 on failure
-int tryMove(Human* person, int xtry, int ytry){
+int tryMove(Human* person, double angle){
+    person->orientation += angle;
+
+    int xtry = round(cos(person->orientation));
+    int ytry = round(sin(person->orientation));
+
     //converting coords 
     int futureX = person->sprite.container.x + xtry;
     int futureY = person->sprite.container.y + ytry + 2;
@@ -81,31 +83,46 @@ void moveHuman(Human* person){
         break;
 
     case RANDOM:
-        if(next < 20){ //20% chance going up
-            tryMove(person, 0, -1);
+        if(next < 35){ //35% chance forward
+            tryMove(person, 0);
         }
-        else if(next < 40){ //20% chance going down
-            tryMove(person, 0, 1);
+        else if(next < 55){ //20% chance up 45deg
+            tryMove(person, PI/4);
         }
-        else if(next < 60){ //20% chance going left
-            tryMove(person, -1, 0);
+        else if(next < 75){ //20% chance down 45deg
+            tryMove(person, -PI/4);
         }
-        else if(next < 80){ //20% chance going right
-            tryMove(person, 1, 0);
+        else if(next < 81){ //6% chance up 90deg
+            tryMove(person, PI/2);
         }
-        else{ //20% chance going idle
+        else if(next < 87){ //6% chance down 90deg
+            tryMove(person, -PI/2); 
+        }
+        else if(next < 90){ //3% chance up 135deg
+            tryMove(person, 3*PI/4);
+        }
+        else if(next < 94){ //3% chance down 135deg
+            tryMove(person, -3*PI/4);
+        }
+        else if(next < 96){ //2% chance going backward
+            tryMove(person, PI);
+        }
+        else{ // 4% chance going idle
             person->movType = IDLE;
         }
         break;
 
     case SPAWNING:
-    //this is simply trying all 4 directions one at a time...
-        if(!tryMove(person, 0, -1))
-            if(!tryMove(person, 0, 1))
-                if(!tryMove(person, -1, 0))
-                    tryMove(person, 1, 0);
+    //when spawning, humans wills always go on a straight line for some time
+        if(!tryMove(person, 0))
+            if(!tryMove(person, -PI/2))
+                if(!tryMove(person, PI/2))
+                    tryMove(person, PI);
 
-        person->movType = RANDOM;
+        person->counter--;
+        if(person->counter == 0){
+            person->movType = RANDOM;
+        }
         break;
 
     default:

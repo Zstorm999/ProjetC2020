@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#define PI 3.14159265358979323846
 
 #include "structs.h"
 #include "io.h"
@@ -27,7 +29,9 @@ typedef struct _pointL{
 typedef struct Spawner{
     //linked lists
     struct Human* personList;
+    int nbPersons;
     struct _pointL* spawnPoints;
+    int nbSPoints;
     
     //reference for all Humans to use
     char** objMap;
@@ -42,6 +46,9 @@ enum Movement{SPAWNING, IDLE, RANDOM};
 struct Human{
     sprite sprite;
     enum Movement movType;
+    int counter; //general purpose counter
+    double orientation;
+    int frameCounter; //counter for printing
 
     //linked list
     Human* next;
@@ -57,7 +64,7 @@ void moveHuman(Human* person);
 
 Spawner* createSpawner();
 void destroySpawner(Spawner* spawn);
-Spawner* initSpawner(int yMin, int yMax);
+Spawner* initSpawner(int yMin, int yMax, char spawnChar);
 void updateSpawner(Spawner* spawn);
 
 #endif //_SPAWNER_H
