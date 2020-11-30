@@ -172,7 +172,6 @@ void moveLowerTrain(Train* train)
         }            
         else
         {
-            placec(42, 0, L'\0', 'r'); wprintf(L"PRC"); //debug
             showSprite(train->toUpdateFirst[0], 0); //print a chunck of terrain at the back of the train
             if(abs(xUppTrain - train->spriteTrain.container.x) < TRAIN_SIZE)
             {
@@ -271,7 +270,7 @@ void updateTrainUp(Train* tr)
         tr->updatesBeforeArrival--;
     }
 
-    placec(44, 0, L'\0', 'r'); wprintf(L"TUP: %d      ", tr->updatesBeforeArrival); //debug
+    placec(44, 0, L'\0', 'r'); wprintf(L"train top: %d (~%d s)       ", tr->updatesBeforeArrival, tr->updatesBeforeArrival/FRAMERATE); //debug
 
     //not in the station:
     if(!tr->visible)
@@ -366,7 +365,7 @@ void updateTrainDown(Train* tr)
         tr->updatesBeforeArrival--;
     }
 
-    placec(45, 0, L'\0', 'r'); wprintf(L"TDW: %d , x: %d       ", tr->updatesBeforeArrival, tr->spriteTrain.container.x); //debug
+    placec(45, 0, L'\0', 'r'); wprintf(L"train bot: %d (~%d s)       ", tr->updatesBeforeArrival, tr->updatesBeforeArrival/FRAMERATE); //debug
 
     //not in the station:
     if(!tr->visible)

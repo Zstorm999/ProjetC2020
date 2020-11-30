@@ -19,7 +19,7 @@ int main()
     
     initDisp();
 
-    //Train** Trains= initTrains();
+    Train** Trains= initTrains();
 
     Spawner* spawnUp = initSpawner(0, 20);
 
