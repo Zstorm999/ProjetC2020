@@ -3,25 +3,25 @@
 #include "include/menu.h"
 #include "include/structs.h"
 #include "include/train.h"
-#include "include/human.h"
+#include "include/spawner.h"
 #include <unistd.h>
 #include <time.h>
 
 int main()
 {
-    system("clear");
-    system("tput civis");
+    int ret;
+    ret = system("clear");
+    ret = system("tput civis");
 
     setlocale(LC_ALL, "");
     
-    manageMenu(); // return 0: classic mode, return 1: fast mode (because it's easy to implement ^^)
+    //manageMenu(); // return 0: classic mode, return 1: fast mode (because it's easy to implement ^^)
     
     initDisp();
-    char** objMap= loadObjectMap("data/objMap.txt");
 
-    Train** Trains= initTrains();
+    //Train** Trains= initTrains();
 
-    Human* person = createHuman(50, 10, objMap, Trains);
+    Spawner* spawnUp = initSpawner(0, 20);
 
     srand(time(NULL));
 
@@ -38,16 +38,16 @@ int main()
         }
 
         //manage display here
-        moveHuman(person);
-        showSprite(&person->sprite, 1);
+        updateSpawner(spawnUp);
+        showSprite(&spawnUp->personList->sprite, 1);
         
-        updateTrainUp(Trains[0]);
+        //updateTrainUp(Trains[0]);
 
         usleep(TICK_INTERVAL);
     }
     quit:
 
-    system("tput cnorm");
+    ret = system("tput cnorm");
 
     return 0;
 }

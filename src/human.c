@@ -1,14 +1,15 @@
-#include "include/human.h"
-#include "include/globals.h"
+#include "include/spawner.h"
 
-Human* createHuman(int x, int y, char** objMap, Train** trains){
+Human* createHuman(int x, int y, Spawner* creator){
+    debug("entered\n");
+
     Human* person = (Human*)malloc(sizeof(Human));
     if(!person){
         fprintf(stderr, "Error while allocating Human structure\n");
         return NULL;
     }
 
-    person->movType = SPAWNING;
+    debug("created struct Human\n");
 
     person->sprite.img = loadSpriteFromFile("data/person.txt");
     setRectDims(&person->sprite.container, x, y, 0, 1, 0, 2);
@@ -17,9 +18,15 @@ Human* createHuman(int x, int y, char** objMap, Train** trains){
     person->sprite.nextSprite = NULL;
     person->sprite.spriteName = L"Bob";
 
-    person->objmap= objMap;
-    if(y>23) person->train= trains[1];
-    else person->train= trains[0];
+    debug("sprite init\n");
+
+    person->movType = SPAWNING;
+
+    person->next = NULL;
+
+    person->creator = creator;
+
+    debug("end\n");
 
     return person;
 }
@@ -35,15 +42,12 @@ int tryMove(Human* person, int xtry, int ytry){
     int futureX = person->sprite.container.x + xtry;
     int futureY = person->sprite.container.y + ytry + 2;
 
-    char obj = person->objmap[futureY][futureX];
-    char msg[100];
-    sprintf(msg, " : %d\n", obj);
-    debug(msg);
+    char obj = person->creator->objMap[futureY][futureX];
 
     if(obj != '0' && obj != 'd'){
         debug("Entered\n");
 
-        sprite* Bg = getBackground();  
+        sprite* Bg = person->creator->bg;
         //Bg->color = 'e';
         Bg->container.xMin = person->sprite.container.x;
         Bg->container.yMin = person->sprite.container.y;
@@ -67,9 +71,7 @@ int tryMove(Human* person, int xtry, int ytry){
 
 void moveHuman(Human* person){
     int next = rand()%100;
-    char msg[100];
-    sprintf(msg, "%d : %d %d\n", next, person->sprite.container.x, person->sprite.container.y);
-    debug(msg);
+    
 
     switch (person->movType)
     {
