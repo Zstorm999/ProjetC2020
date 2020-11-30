@@ -41,6 +41,7 @@ int main()
         showSprite(&person->sprite, 1);
         
         updateTrainUp(Trains[0]);
+        updateTrainDown(Trains[1]);
 
         usleep(TICK_INTERVAL);
     }

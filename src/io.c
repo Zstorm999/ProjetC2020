@@ -71,12 +71,21 @@ void placec(int y, int x, wchar_t symbol, char color)
      switch(color)
     {
         case 'w': //white
+            wprintf(L"\033[0;37m");
+            break;
+        case 'W': //white
             wprintf(L"\033[01;37m");
             break;
         case 'y': //yellow
+            wprintf(L"\033[0;33m");
+            break;
+        case 'Y': //yellow
             wprintf(L"\033[01;33m");
             break;
         case 'r':
+            wprintf(L"\033[0;31m");
+            break;
+        case 'R':
             wprintf(L"\033[01;31m");
             break;
     }
