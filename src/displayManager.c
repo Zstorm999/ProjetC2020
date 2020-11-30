@@ -1,4 +1,5 @@
 #include "include/displayManager.h"
+#include "include/structs.h"
 
 void initDisp()
 {
@@ -17,7 +18,6 @@ void showSprite(sprite* sprite, char cascade)
                     placec(sprite->container.y+i, sprite->container.x+j, sprite->img[i][j], sprite->color);
         }
     }
-    
     if(cascade==1)
     {
         if(sprite->nextSprite!=NULL)

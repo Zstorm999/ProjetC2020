@@ -10,13 +10,13 @@ void drawBox(Rectangle* shape)
 {
     char colo= 'w'; //color
     int i;
-    placec(shape->xMin, shape->yMin, L'┌', colo);
+    placec(shape->yMin, shape->xMin, L'┌', colo);
     placec(shape->yMax, shape->xMin, L'└', colo);
-    placec(shape->xMin, shape->xMax, L'┐', colo);
+    placec(shape->yMin, shape->xMax, L'┐', colo);
     placec(shape->yMax, shape->xMax, L'┘', colo);
     for(i= (shape->yMin)+2; i<shape->yMax; i++)
     {
-        placec(i, shape->yMin, L'│', colo);
+        placec(i, shape->xMin, L'│', colo);
     }
     for(i= shape->yMin+2; i<shape->yMax; i++)
     {
@@ -24,7 +24,7 @@ void drawBox(Rectangle* shape)
     }
     for(i= shape->xMin+2; i<shape->xMax; i++)
     {
-        placec(shape->xMin, i, L'─', colo);
+        placec(shape->yMin, i, L'─', colo);
     }
     for(i= shape->xMin+2; i<shape->xMax; i++)
     {

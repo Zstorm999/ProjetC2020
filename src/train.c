@@ -7,6 +7,8 @@
 #include "include/globals.h"
 #include "string.h"
 
+#include "include/menu.h"
+
 /**
 *movements:
 *   UpperTrain: <-----------
@@ -16,6 +18,32 @@
 int setUpdateCountBeforeNextArrival()
 {
     return FRAMERATE*(MININTERVALTRAIN+(rand()%(MAXINTERVALTRAIN-MININTERVALTRAIN)));
+}
+
+sprite* extrDoorSprite(bool isClosed)
+{
+    sprite* door= (sprite*)malloc(sizeof(sprite));
+
+    if(isClosed)
+    {
+        door->img= (wchar_t**)calloc(1, sizeof(wchar_t*));
+        door->img[0]= (wchar_t*)malloc(sizeof(wchar_t));
+        door->img[0][0]= L'\0';
+        setRectDims(&door->container, 0, 0, 0, 0, 0, 0);
+        door->spriteName= L"Door Close";
+        door->maskMap= NULL;
+    }
+    else
+    {
+        door->img= loadSpriteFromFile("data/trainOpenDoor.txt");
+        setRectDims(&door->container, 12, LANE_BOT+3, 3, TRAIN_SIZE-3, 0, 4);
+        door->spriteName= L"Door Open";
+        door->maskMap= file2Mask("data/maskTrainOpenDoor.txt");
+    }
+    door->color= TRAIN_COLOR;
+    door->nextSprite= NULL;
+    
+    return door;
 }
 
 Train* train_create(int lane)
@@ -37,7 +65,7 @@ Train* train_create(int lane)
     newTrain->spriteTrain.container.xMin= 0;
     newTrain->spriteTrain.container.xMax= TRAIN_SIZE;
     newTrain->spriteTrain.container.yMin= 0;
-    newTrain->spriteTrain.color= 'R';
+    newTrain->spriteTrain.color= TRAIN_COLOR;
     newTrain->toUpdateFirst= NULL;
 
     switch (lane)
@@ -57,9 +85,11 @@ Train* train_create(int lane)
         newTrain->spriteTrain.img= loadSpriteFromFile("data/trainLower.txt");
         newTrain->spriteTrain.maskMap= file2Mask("data/maskTrainLower.txt");
         newTrain->spriteTrain.container.yMax= 6;
-        newTrain->spriteTrain.nextSprite= (sprite**)calloc(MAX_ELEM_ON_ROW+1, sizeof(sprite*));           //can be overlayed by many things
-        newTrain->toUpdateFirst= (sprite**)calloc(3, sizeof(sprite*));                                      //overlap upper train and ground
-        newTrain->spriteTrain.spriteName= L"Train Down";    //reserved nextSprite: [0: wall left][1: wall right][2: door][3..n: human]
+        newTrain->spriteTrain.nextSprite= (sprite**)calloc(3, sizeof(sprite*));           //can be overlayed by many things
+        newTrain->toUpdateFirst= (sprite**)calloc(4, sizeof(sprite*));                                      //overlap upper train and ground
+        newTrain->spriteTrain.spriteName= L"Train Down";    //reserved nextSprite: [0: wall left][1: wall right][2: doors]
+        newTrain->doorOpen= extrDoorSprite(false);
+        newTrain->doorClose= extrDoorSprite(true);
         break;
 
     default:
@@ -117,6 +147,8 @@ Train** initTrains()
     wallRight->spriteName= L"BG Chunk Wall Right";
     Trains[1]->spriteTrain.nextSprite[1]= wallRight;
 
+    //Trains[1]->spriteTrain.nextSprite[2]= Trains[1]->doorClose; //by default, doors are closed
+
     return Trains;
 }
 
@@ -173,7 +205,7 @@ void moveLowerTrain(Train* train)
         else
         {
             showSprite(train->toUpdateFirst[0], 0); //print a chunck of terrain at the back of the train
-            if(abs(xUppTrain - train->spriteTrain.container.x) < TRAIN_SIZE)
+            if(abs(xUppTrain - train->spriteTrain.container.x) < TRAIN_SIZE && xUppTrain + train->toUpdateFirst[1]->container.xMin < MAP_WIDTH-11)
             {
                 showSprite(train->toUpdateFirst[1], 0); //print a chunck of the other train at the back of the train
             }

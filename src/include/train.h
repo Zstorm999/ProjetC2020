@@ -10,6 +10,7 @@
 #define LANE_BOT 19
 #define TRAIN_SIZE 106
 #define BASE_POSX  -TRAIN_SIZE;
+#define TRAIN_COLOR 'R'
 
 #define MININTERVALTRAIN 10 //38  //seconds, the interval betwin each train is randomized
 #define MAXINTERVALTRAIN 22 //120 //seconds
@@ -17,14 +18,18 @@
 
 typedef struct _Train Train;
 struct _Train{
+    //attributes which define the object:
     sprite spriteTrain;
-
     bool visible;
     bool arrived;
     int updatesBeforeArrival;
     float velocity;         //positive = left to right, negative = right to left
+    
+    //attributes used by the object:
     sprite** toUpdateFirst; //is used to rebuild the background while updating location (not automated)
     int* misc;
+    sprite* doorOpen;
+    sprite* doorClose;
     bool clkComute; //is used for very slow movement (velocity= 0.5)
 };
 

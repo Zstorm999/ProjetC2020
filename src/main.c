@@ -9,14 +9,12 @@
 
 int main()
 {
-    int ret;
-    ret = system("clear");
-    ret = system("tput civis");
-
+    system("clear");
     setlocale(LC_ALL, "");
     
-    //manageMenu(); // return 0: classic mode, return 1: fast mode (because it's easy to implement ^^)
+    manageMenu(); // return 0: classic mode, return 1: fast mode (because it's easy to implement ^^)
     
+    system("tput civis"); //disable cursor
     initDisp();
 
     Train** Trains= initTrains();
@@ -47,8 +45,8 @@ int main()
         usleep(TICK_INTERVAL);
     }
     quit:
-
-    ret = system("tput cnorm");
+    
+    system("tput cnorm"); //enable cursor
 
     return 0;
 }
