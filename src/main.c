@@ -39,8 +39,7 @@ int main()
         updateSpawner(spawnUp);
         showSprite(&spawnUp->personList->sprite, 1);
         
-        updateTrainUp(Trains[0]);
-        updateTrainDown(Trains[1]);
+        updateTrains(Trains);
 
         usleep(TICK_INTERVAL);
     }

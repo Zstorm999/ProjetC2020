@@ -403,3 +403,9 @@ void updateTrainDown(Train* tr)
     if(!tr->visible)
         tr->updatesBeforeArrival--;
 }
+
+void updateTrains(Train** trs)
+{
+    updateTrainUp(trs[0]);
+    updateTrainDown(trs[1]);
+}
