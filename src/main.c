@@ -10,6 +10,7 @@
 int main()
 {
     system("clear");
+    system("tput civis");
 
     setlocale(LC_ALL, "");
     
@@ -45,6 +46,8 @@ int main()
         usleep(TICK_INTERVAL);
     }
     quit:
+
+    system("tput cnorm");
 
     return 0;
 }

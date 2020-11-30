@@ -76,11 +76,15 @@ void placec(int y, int x, wchar_t symbol, char color)
         case 'y': //yellow
             wprintf(L"\033[01;33m");
             break;
-        case 'r':
+        case 'r': //red
             wprintf(L"\033[01;31m");
+            break;
+        case 'e':
+            wprintf(L"\033[41;31m");
             break;
     }
     wprintf(L"%lc", symbol);
+    //wprintf(L"\e[0m");
 }
 
 //similar to loadSprite but less memory consuming
