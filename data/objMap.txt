@@ -6,13 +6,13 @@
                                                                                                                              
                                                                                                                              
                                                                        000000                                                
-      0000000000000000000000000000000000000000000000000000000000000000 0SSSS0 000000000000000000000000000 0000000000000000000
-      0         s s s s               s s s s                        000    000       s s s s           000    s s s s      0
-      000                                                                                                                   0
-       0E                                                                                                                   0
-       0E                                                                                                                   0
-      000                                                                                                                   0       
-      0                                                                                                                     0       
+      0000000000000000000000000000000000000000000000000000000000000000 0SSSS0 000000000000000000000000000 0000000000000000000  0: Can't go there
+      0         s s s s               s s s s                        000    000       s s s s           000    s s s s      0  1: Should not go there
+      000                                                                                                                   0  d: Die
+       0E                                                                                                                   0  M: Train gate
+       0E                                                                                                                   0  S: Exit
+      000                                                                                                                   0  E: Entrance     
+      0                                                                                                                     0  s: Seats     
       0                                                                                                                     0      
       0                                                                                                                     0     
       011111111111111111111111MMMMM111111111111111111MMMMM1111111111111111MMMMM111111111111111111MMMMM11111111111111111111110  
@@ -24,7 +24,7 @@
                                                                                                                               
                                                                                                                              
       0ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd0
-      01111111111111111111111MMMMM111111111111111111MMMMM1111111111111111MMMMM111111111111111111MMMMM111111111111111111111110
+      011111111111111111111111MMMMM111111111111111111MMMMM1111111111111111MMMMM111111111111111111MMMMM11111111111111111111110
       0                                                                                                                     0
       0                                                                                                                     0      
       0                                                                                                                     0
