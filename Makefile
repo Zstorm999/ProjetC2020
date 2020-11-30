@@ -4,7 +4,7 @@
 
 # Compiler settings - Can be customized.
 CC = gcc
-CXXFLAGS = -std=c11 
+CXXFLAGS = -std=c11 -O3
 LDFLAGS =
 
 # Makefile settings - Can be customized.
@@ -44,7 +44,7 @@ $(APPNAME): $(OBJ)
 
 # Building rule for .o files and its .c in combination with all .h
 $(OBJDIR)/%.o: $(SRCDIR)/%$(EXT)
-	$(CC) $(CXXFLAGS) -o $@ -c $< -O3
+	$(CC) $(CXXFLAGS) -o $@ -c $< 
 
 ################### Cleaning rules for Unix-based OS ###################
 # Cleans complete project
