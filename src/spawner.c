@@ -68,39 +68,28 @@ void destroySpawner(Spawner* spawn){
     free(spawn);
 }
 
-Spawner* initSpawner(int yMin, int yMax){
+Spawner* initSpawner(int yMin, int yMax, char spawnChar){
     Spawner* spawn = createSpawner();
     if(!spawn){
         return NULL;
     }
 
-    debug("created spawner\n");
-
     spawn->bg = getBackground();
     spawn->objMap = loadObjectMap("data/objMap.txt");
 
-    debug("created background and objMap\n");
-
-    if(spawn->objMap == NULL){
-        debug("objMap is NULL\n");
-    }
 
     //loading spawner position
     for(int i=yMin; i<yMax; i++){
         for(int j=0; j<MAX_COLUMNS; j++){
             //if spawnable tile, we add it to the list
-            if(spawn->objMap[i][j] == 'E'){
+            if(spawn->objMap[i][j] == spawnChar){
                 spawn->spawnPoints =  _pointLAppend(spawn->spawnPoints, i, j);
             }
         }
     }
 
-    debug("created spawn points\n");
-
     //always spawn a human at the first found spawnPoint (y is -1 cause sprite position and real position differ)
     spawn->personList = createHuman((spawn->spawnPoints->x) - 3 , (spawn->spawnPoints->y) + 2 , spawn);
-
-    debug("created persons\n");
 
     return spawn;
 }
