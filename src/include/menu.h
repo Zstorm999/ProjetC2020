@@ -1,3 +1,14 @@
+/**
+ * - Copyright 01/11/2020
+ *
+ * This source code is released the GNU GPLv3's policy,
+ * thus, is hereby granted the legal permission, to any individual obtaining a copy of this file, to copy,
+ * distribute and/or modify any of part of the project
+ * 
+ * the autors, CLEMENT Aimeric and ARCHAMBEAU Thomas
+ * discaim all copyright interest in the program ProjectC2020
+ */
+
 #ifndef _MENU_H
 #define _MENU_H
 

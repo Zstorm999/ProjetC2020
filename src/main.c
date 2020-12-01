@@ -1,3 +1,14 @@
+/**
+ * - Copyright 01/11/2020
+ *
+ * This source code is released the GNU GPLv3's policy,
+ * thus, is hereby granted the legal permission, to any individual obtaining a copy of this file, to copy,
+ * distribute and/or modify any of part of the project
+ * 
+ * the autors, CLEMENT Aimeric and ARCHAMBEAU Thomas
+ * discaim all copyright interest in the program ProjectC2020
+ */
+
 #include "include/displayManager.h"
 #include "include/io.h"
 #include "include/menu.h"
@@ -12,9 +23,7 @@ int main()
 {
     
     setlocale(LC_ALL, "");
-    
-    
-    system("tput civis"); //disable cursor
+    system("stty -echo");
     srand(time(NULL));
 
     Train** trains = NULL;
@@ -24,7 +33,9 @@ int main()
     while(1){//general menu loop
         system("clear");
 
+        system("tput cnorm"); //enable cursor
         int next = manageMenu(); // return 0: classic mode, return 1: only trains (because we are running out of time ^^)
+        system("tput civis"); //disable cursor
 
         initDisp();
 
@@ -43,7 +54,6 @@ int main()
 
         while(1){
             //manage input here
-            placec(600, 0, '\0', 'w');
             char key = key_pressed();
 
             PlayerInput direction = NONE;
@@ -110,7 +120,6 @@ int main()
         if(trains[0] != NULL) train_destroy(trains[0]);
         if(trains[1] != NULL) train_destroy(trains[1]);
 
-
     }
     quit:
 
@@ -119,6 +128,7 @@ int main()
     if(trains[0] != NULL) train_destroy(trains[0]);
     if(trains[1] != NULL) train_destroy(trains[1]);
     
+    system("stty echo");
     system("tput cnorm"); //enable cursor
 
     return 0;

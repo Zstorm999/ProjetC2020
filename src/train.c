@@ -1,3 +1,14 @@
+/**
+ * - Copyright 01/11/2020
+ *
+ * This source code is released the GNU GPLv3's policy,
+ * thus, is hereby granted the legal permission, to any individual obtaining a copy of this file, to copy,
+ * distribute and/or modify any of part of the project
+ * 
+ * the autors, CLEMENT Aimeric and ARCHAMBEAU Thomas
+ * discaim all copyright interest in the program ProjectC2020
+ */
+
 #include "include/train.h"
 #include "include/io.h"
 #include "include/structs.h"
@@ -6,12 +17,6 @@
 #include <wchar.h>
 #include "include/globals.h"
 #include "string.h"
-
-/**
-*movements:
-*   UpperTrain: <-----------
-*   LowerTrain: ----------->
-*/
 
 int setUpdateCountBeforeNextArrival()
 {
@@ -44,6 +49,9 @@ sprite* extrDoorSprite(bool isClosed)
     return door;
 }
 
+/**
+ * Instantiate a new train (0=> upper train, 1=> botom train)
+ */
 Train* train_create(int lane)
 {
     //allocating memory space
@@ -113,7 +121,7 @@ Train** initTrains()
     Trains[1]= train_create(1); //train down
     Trains[0]->spriteTrain.nextSprite[0]= &Trains[1]->spriteTrain;
 
-    //every pieces required to rebuild the background after a move
+    //every pieces required to rebuild the background after a move (including pieces of the upperTrain used by the lower train)
     Trains[0]->toUpdateFirst[0]= getBackground();
     Trains[0]->toUpdateFirst[0]->container.yMin= LANE_TOP;
     Trains[0]->toUpdateFirst[0]->container.yMax= LANE_TOP+8;
@@ -172,6 +180,11 @@ void printTime(int nbUpdates, int x, int y)
     }
 }
 
+/**
+*movements:
+*   UpperTrain: <-----------
+*   LowerTrain: ----------->
+*/
 void moveUpperTrain(Train* train)
 {
     if(train->visible)
@@ -190,9 +203,9 @@ void moveUpperTrain(Train* train)
         else
         {
             int i= 0;
-            while(train->toUpdateFirst[i] != NULL && train->spriteTrain.container.x < MAP_WIDTH-TRAIN_SIZE-train->velocity) //will print a chunck of the terrain at the back of the train an then the travelers
+            while(train->toUpdateFirst[i] != NULL && train->spriteTrain.container.x < MAP_WIDTH-TRAIN_SIZE-train->velocity) //will print a chunck of the terrain at the back of the train
             {
-                showSprite(train->toUpdateFirst[i], 0);
+                showSprite(train->toUpdateFirst[i], 0); //(and will print the other dependencies as well if I add some later)
                 i++;
             }
             showSprite(&train->spriteTrain, 1);

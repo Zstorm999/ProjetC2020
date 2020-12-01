@@ -1,3 +1,14 @@
+/**
+ * - Copyright 01/11/2020
+ *
+ * This source code is released the GNU GPLv3's policy,
+ * thus, is hereby granted the legal permission, to any individual obtaining a copy of this file, to copy,
+ * distribute and/or modify any of part of the project
+ * 
+ * the autors, CLEMENT Aimeric and ARCHAMBEAU Thomas
+ * discaim all copyright interest in the program ProjectC2020
+ */
+
 #include "include/displayManager.h"
 #include "include/structs.h"
 
@@ -7,6 +18,10 @@ void initDisp()
     showSprite(Bg, 0);
 }
 
+/**
+ * Print a sprite, trimed by the sub coordinates and ignoring the parts defined by its mask map (transparency).
+ * In cascade mode, showSprite will recuvively updates the next sprites, coresponding to the next overlaying graphic layers.
+ */
 void showSprite(sprite* sprite, char cascade)
 {
     for(int i=sprite->container.yMin; i<sprite->container.yMax; i++)
@@ -32,6 +47,9 @@ void showSprite(sprite* sprite, char cascade)
     }
 }
 
+/**
+ * Provide a new instance of the background sprite
+ */
 sprite* getBackground()
 {
     sprite* Bg = (sprite*)malloc(sizeof(sprite));
