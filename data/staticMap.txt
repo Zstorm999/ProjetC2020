@@ -34,4 +34,4 @@
              ╘╗                                       .↑↑↑↑.                                                     ╒╛
      -  -------╚==╗‗‗‗‗‗‗‗‗⍴‗⍴‗⍴‗⍴‗‗‗‗‗‗‗‗‗⍴‗⍴‗⍴‗⍴‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗⍴‗⍴‗⍴‗⍴‗‗‗‗‗‗‗‗‗‗‗⍴‗⍴‗⍴‗⍴‗‗‗‗‗‗‗‗‗‗══╝----  -   -
 
- press q to come back to the menu, ESC to exit and arrow keys to move
+ press q to get back to the main menu, ESC to exit and arrow keys to move
