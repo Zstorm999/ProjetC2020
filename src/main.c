@@ -18,12 +18,16 @@
 #include <unistd.h>
 #include <time.h>
 #include <stdbool.h>
+#include <signal.h>
+
+void sighandler(int);
 
 int main()
 {
-    
+    signal(SIGINT, sighandler);
+
     setlocale(LC_ALL, "");
-    system("stty -echo");
+    system("stty -echo"); //enable input playback
     srand(time(NULL));
 
     Train** trains = NULL;
@@ -128,9 +132,15 @@ int main()
     if(trains[0] != NULL) train_destroy(trains[0]);
     if(trains[1] != NULL) train_destroy(trains[1]);
     
-    system("stty echo");
+    system("stty echo"); //enable input playback
     system("tput cnorm"); //enable cursor
 
     return 0;
 }
 
+void sighandler(int signum)
+{
+    system("stty echo"); //enable input playback
+    system("tput cnorm"); //enable cursor
+    exit(0);
+}
