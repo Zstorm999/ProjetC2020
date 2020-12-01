@@ -87,7 +87,7 @@ int tryMove(Human* person, double angle){
     return 0;
 }
 
-void moveHuman(Human* person){
+void moveHuman(Human* person, PlayerInput input){
     int next = rand()%100;
 
 
@@ -143,6 +143,16 @@ void moveHuman(Human* person){
         }
 
 
+        break;
+    
+    case PLAYER:
+        if(input == NONE) break;
+
+        if(input == UP) person->orientation = PI/2;
+        if(input == DOWN) person->orientation = -PI/2;
+        if(input == LEFT) person->orientation = PI;
+        if(input == RIGHT) person->orientation = 0;
+        tryMove(person, 0);
         break;
 
     default:

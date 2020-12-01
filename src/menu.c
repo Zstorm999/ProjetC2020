@@ -163,7 +163,7 @@ int manageMenu()
     drawBox(border);
 
     Choice* cLaunchClassic= appendNewChoice(NULL, L"Start in classic mode");
-    Choice* cLaunchFast= appendNewChoice(cLaunchClassic, L"Start in fast mode");
+    Choice* cLaunchFast= appendNewChoice(cLaunchClassic, L"Start with only trains");
     Choice* cQuit= appendNewChoice(cLaunchFast, L"Quit");
 
     drawChoice(cQuit);

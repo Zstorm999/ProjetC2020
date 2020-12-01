@@ -4,7 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
+
+#ifndef PI //PI is not implemented in my compiler, so I had to add it
 #define PI 3.14159265358979323846
+#endif
 
 #include "structs.h"
 #include "io.h"
@@ -36,6 +40,9 @@ typedef struct Spawner{
 
     int yMin, yMax;
     int nextSpawnCounter;
+    
+    bool containsPlayer;
+
 
     sprite** renderArray;
     
@@ -46,7 +53,9 @@ typedef struct Spawner{
 } Spawner;
 
 //describes movement type
-enum Movement{SPAWNING, IDLE, RANDOM};
+enum Movement{SPAWNING, IDLE, RANDOM, PLAYER};
+
+typedef enum PlayerInput{NONE, UP, DOWN, LEFT, RIGHT} PlayerInput;
 
 
 struct Human{
@@ -66,13 +75,13 @@ struct Human{
 
 Human* createHuman(int x, int y, struct Spawner* creator); //must provide the two trains, the train will then be chosen using the human's y pos
 void destroyHuman(Human* person);
-void moveHuman(Human* person);
+void moveHuman(Human* person, PlayerInput input);
 Human* appendHuman(Human* list, int x, int y, Spawner* creator);
 
 Spawner* createSpawner();
 void destroySpawner(Spawner* spawn);
-Spawner* initSpawner(int yMin, int yMax, char spawnChar);
-void updateSpawner(Spawner* spawn);
+Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer);
+void updateSpawner(Spawner* spawn, PlayerInput input);
 
 #endif //_SPAWNER_H
 

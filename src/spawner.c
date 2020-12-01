@@ -52,6 +52,7 @@ Spawner* createSpawner(){
     spawn->bg = NULL;
 
     spawn->nextSpawnCounter = 5;
+    spawn->containsPlayer = false;
 
     return spawn;
 }
@@ -71,7 +72,7 @@ void destroySpawner(Spawner* spawn){
     free(spawn);
 }
 
-Spawner* initSpawner(int yMin, int yMax, char spawnChar){
+Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer){
 
     debug("init\n");
 
@@ -106,16 +107,19 @@ Spawner* initSpawner(int yMin, int yMax, char spawnChar){
     //always spawn a human at the first found spawnPoint (y is -1 cause sprite position and real position differ)
     spawn->personList = createHuman((spawn->spawnPoints->x) - 3 , (spawn->spawnPoints->y) + 2 , spawn);
 
-    debug("outinit\n");
+    spawn->containsPlayer = containsPlayer;
+    if(containsPlayer){
+        spawn->personList = appendHuman(spawn->personList, (spawn->spawnPoints->next->x) - 3, (spawn->spawnPoints->next->x) + 2, spawn);
+        spawn->personList->next->movType = PLAYER;
+        spawn->personList->next->sprite.color = 'r';
+    }
 
     return spawn;
 }
 
 //apply moveHuman to all Humans currently used by spawner  
-void updateSpawner(Spawner* spawn){
-    //if for whatever reason the spawner is non existent, just drop
-
-    debug("1 ");
+void updateSpawner(Spawner* spawn, PlayerInput input){
+    //if for whatever reason the spawner is non existent, just drop (this happens when no humans are used)
 
     if(spawn == NULL) return;
     Human* list = spawn->personList;
@@ -131,7 +135,7 @@ void updateSpawner(Spawner* spawn){
         list->sprite.nextSprite[0] = NULL; //resetting cascade
 
 
-        moveHuman(list);
+        moveHuman(list, input);
 
         //adding the sprite in the array
         int realY = list->sprite.container.y - spawn->yMin;
