@@ -55,7 +55,7 @@ int main()
 
         while(1){
             //manage input here
-            placec(600, 0, '\0', 'w');
+            placec(0, 600, '\0', 'w');
             char key = key_pressed();
 
             PlayerInput direction = NONE;
@@ -119,7 +119,6 @@ int main()
         if(spawnDown != NULL) destroySpawner(spawnDown);
         if(trains[0] != NULL) train_destroy(trains[0]);
         if(trains[1] != NULL) train_destroy(trains[1]);
-
 
     }
     quit:

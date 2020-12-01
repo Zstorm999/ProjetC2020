@@ -19,7 +19,8 @@ void initDisp()
 }
 
 /**
- *
+ * Print a sprite, trimed by the sub coordinates and ignoring the parts defined by its mask map (transparency).
+ * In cascade mode, showSprite will recuvively updates the next sprites, coresponding to the next overlaying graphic layers.
  */
 void showSprite(sprite* sprite, char cascade)
 {
@@ -46,6 +47,9 @@ void showSprite(sprite* sprite, char cascade)
     }
 }
 
+/**
+ * Provide a new instance of the background sprite
+ */
 sprite* getBackground()
 {
     sprite* Bg = (sprite*)malloc(sizeof(sprite));

@@ -25,7 +25,7 @@
 
 #define MININTERVALTRAIN 30 //38  //seconds, the interval betwin each train is randomized
 #define MAXINTERVALTRAIN 93 //120 //seconds
-#define HALT_TIME 10 //18         //seconds
+#define HALT_TIME 12 //18         //seconds
 
 typedef struct _Train Train;
 struct _Train{
@@ -50,10 +50,6 @@ struct _Train{
 Train* train_create(int lane);
 void train_destroy(Train* train);
 Train** initTrains();
-void moveUpperTrain(Train* train);
-void moveLowerTrain(Train* train);
-void updateTrainUp(Train* train);
-void updateTrainDown(Train* trains);
 void updateTrains(Train** trains);
 
 #endif //_TRAIN_H
