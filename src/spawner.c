@@ -121,34 +121,16 @@ void updateSpawner(Spawner* spawn, PlayerInput input){
 
 
     if(spawn == NULL) return;
-    Human* list = spawn->personList;
 
-
+    //resetting the renderArray
     for(int i = spawn->yMin; i<spawn->yMax; i++){
         spawn->renderArray[i - spawn->yMin] = NULL;
     }
 
 
+    updateAllHumans(spawn->personList, input);
 
-    while (list != NULL)
-    {
-        list->sprite.nextSprite[0] = NULL; //resetting cascade
-
-
-        moveHuman(list, input);
-
-
-        //adding the sprite in the array
-        int realY = list->sprite.container.y - spawn->yMin;
-
-
-        spawn->renderArray[realY] =  appendSprite(spawn->renderArray[realY], &list->sprite);
-
-        list = list->next;
-
-    }
-    
-
+    //spawning new persons
     if(spawn->nextSpawnCounter == 0  && spawn->nbPersons < MAX_HUMANS){
         int nbp = spawn->nbSPoints;
         int pos = rand()%nbp;
