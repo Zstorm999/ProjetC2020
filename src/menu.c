@@ -6,7 +6,7 @@
  * distribute and/or modify any of part of the project
  * 
  * the autors, CLEMENT Aimeric and ARCHAMBEAU Thomas
- * discaim all copyright interest in the program ProjectC2020
+ * disclaim all copyright interest in the program ProjectC2020
  */
 
 #include "include/menu.h"
