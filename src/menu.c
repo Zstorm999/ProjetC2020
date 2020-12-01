@@ -177,6 +177,7 @@ int manageMenu()
     system("clear");
     if(choiceRank==2) //terminate the program if "quit" is picked (fluidity concerns => no prompt)
     {
+        system("tput cnorm");
         exit(0);
     }
     return choiceRank;
