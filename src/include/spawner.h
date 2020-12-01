@@ -65,7 +65,7 @@ typedef struct Spawner{
 } Spawner;
 
 //describes movement type
-enum Movement{SPAWNING, IDLE, RANDOM, PLAYER};
+enum Movement{SPAWNING, IDLE, RANDOM, PLAYER, EMBARQUING};
 
 typedef enum PlayerInput{NONE, UP, DOWN, LEFT, RIGHT} PlayerInput;
 
@@ -87,10 +87,10 @@ struct Human{
 
 Human* createHuman(int x, int y, struct Spawner* creator); //must provide the two trains, the train will then be chosen using the human's y pos
 void destroyHuman(Human* person);
-void moveHuman(Human* person, PlayerInput input);
+int moveHuman(Human* person, PlayerInput input);
 Human* appendHuman(Human* list, int x, int y, Spawner* creator);
+void updateAllHumans(Human* list, PlayerInput input);
 
-Spawner* createSpawner();
 void destroySpawner(Spawner* spawn);
 Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer, Train* train, bool isUp);
 void updateSpawner(Spawner* spawn, PlayerInput input);

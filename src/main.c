@@ -102,15 +102,17 @@ int main()
             //manage display here
             if(spawnerUpdate == 0){
                 updateSpawner(spawnUp, direction);
+            }
+            
+            updateTrains(trains);
+
+            if(spawnerUpdate == 0){
                 updateSpawner(spawnDown, direction);
                 spawnerUpdate = 1;
             }
             else{
                 spawnerUpdate = 0;
             }
-
-            
-            updateTrains(trains);
 
             usleep(TICK_INTERVAL);
         }
