@@ -6,13 +6,13 @@
 #include "include/spawner.h"
 #include <unistd.h>
 #include <time.h>
+#include <stdbool.h>
 
 int main()
 {
     
     setlocale(LC_ALL, "");
     
-     
     
     system("tput civis"); //disable cursor
     srand(time(NULL));
@@ -26,9 +26,15 @@ int main()
 
         Train** Trains= initTrains();
         Spawner* spawnUp = NULL;
+        Spawner* spawnDown = NULL;
 
         if(next == 0){
-            spawnUp = initSpawner(0, 20, 'E', true);
+            bool playerUp;
+            if(rand()%2 == 0) playerUp = true;
+            else playerUp = false;            
+
+            spawnUp = initSpawner(0, 20, 'E', playerUp);
+            spawnDown = initSpawner(21, 38, 'E', !playerUp);
         }
 
 
@@ -76,6 +82,7 @@ int main()
 
             //manage display here
             updateSpawner(spawnUp, direction);
+            updateSpawner(spawnDown, direction);
             
             updateTrains(Trains);
 
