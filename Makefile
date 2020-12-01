@@ -1,6 +1,14 @@
+# This source code is under the GPLv3's policy,
+# thus, is hereby granted the legal permission, to any individual obtaining a copy of this file, to copy,
+# distribute and/or modify any of part of the project
+# 
+# the autors, CLEMENT Aimeric and ARCHAMBEAU Thomas
+# discaim all copyright interest in the program ProjectC2020
+
+
 # Compiler settings - Can be customized.
 CC = gcc
-CXXFLAGS = -std=c11 -O3 -Wall
+CXXFLAGS = -std=c11 -O3
 LDFLAGS = -lm
 
 # Makefile settings - Can be customized.
