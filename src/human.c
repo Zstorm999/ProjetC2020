@@ -131,18 +131,21 @@ void moveHuman(Human* person, PlayerInput input){
     case SPAWNING:
     //when spawning, humans wills always go on a straight line for some time
 
-        if(!tryMove(person, 0))
-            if(!tryMove(person, -PI/2))
+        if(!tryMove(person, 0)){
+            if(next < 50){//50% chance turning right or left
+                if(!tryMove(person, -PI/2))
+                    tryMove(person, PI);
+            }
+            else{
                 if(!tryMove(person, PI/2))
                     tryMove(person, PI);
-
+            }
+        }
 
         person->counter--;
         if(person->counter == 0){
             person->movType = RANDOM;
         }
-
-
         break;
     
     case PLAYER:

@@ -28,7 +28,7 @@ typedef struct _pointL{
     struct _pointL* next;
 } _pointL;
 
-#define MAX_HUMANS 20
+#define MAX_HUMANS 10
 
 //responsible for creating and handling humans
 typedef struct Spawner{
