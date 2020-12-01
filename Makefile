@@ -11,7 +11,7 @@
 
 # Compiler settings - Can be customized.
 CC = gcc
-CXXFLAGS = -std=c11 -O3
+CXXFLAGS = -std=c11 -O3 -w
 LDFLAGS = -lm
 
 # Makefile settings - Can be customized.
