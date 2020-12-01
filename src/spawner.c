@@ -28,9 +28,7 @@ _pointL* _pointLAppend(_pointL* list, int x, int y){
 
 void _pointLClear(_pointL* list){
     if(list == NULL) return;
-    if(list->next != NULL){
-        _pointLClear(list->next);     
-    }
+    _pointLClear(list->next);     
     free(list);
 }
 
@@ -58,8 +56,9 @@ Spawner* createSpawner(){
 }
 
 void destroySpawner(Spawner* spawn){
-    //TODO : destroy linked list for persons
-
+    if(spawn == NULL) return ;
+   
+    destroyHuman(spawn->personList);
     _pointLClear(spawn->spawnPoints);
 
     for(int i=0; i<MAX_LINES; i++){
@@ -67,7 +66,7 @@ void destroySpawner(Spawner* spawn){
     }
     free(spawn->objMap);
 
-    //TODO: implement a function to deallocate sprite
+    destroySprite(spawn->bg->img);
 
     free(spawn);
 }
@@ -99,10 +98,6 @@ Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer, Tr
             if(spawn->objMap[i][j] == spawnChar){
                 spawn->spawnPoints =  _pointLAppend(spawn->spawnPoints, j, i);
                 spawn->nbSPoints++;
-
-                char msg[100];
-                sprintf(msg, "%d\n", i);
-                debug(msg);
             }
         }
     }
@@ -124,7 +119,6 @@ Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer, Tr
 void updateSpawner(Spawner* spawn, PlayerInput input){
     //if for whatever reason the spawner is non existent, just drop (this happens when no humans are used)
 
-    debug("Point 1\n");
 
     if(spawn == NULL) return;
     Human* list = spawn->personList;
@@ -134,37 +128,26 @@ void updateSpawner(Spawner* spawn, PlayerInput input){
         spawn->renderArray[i - spawn->yMin] = NULL;
     }
 
-    debug("POint 2\n");
+
 
     while (list != NULL)
     {
-        debug("2.a ");
         list->sprite.nextSprite[0] = NULL; //resetting cascade
 
-        debug("2.b ");
 
         moveHuman(list, input);
 
-        debug("2.c ");
 
         //adding the sprite in the array
         int realY = list->sprite.container.y - spawn->yMin;
 
-        debug("2.d ");
-        char msg[100];
-        sprintf(msg, "%d %d %d ", list->sprite.container.y, spawn->yMin, realY);
-        debug(msg);
 
         spawn->renderArray[realY] =  appendSprite(spawn->renderArray[realY], &list->sprite);
 
-        debug("2.e ");
-
         list = list->next;
 
-        debug("2.f\n");
     }
     
-    debug("Point 3\n");
 
     if(spawn->nextSpawnCounter == 0  && spawn->nbPersons < MAX_HUMANS){
         int nbp = spawn->nbSPoints;
@@ -185,7 +168,6 @@ void updateSpawner(Spawner* spawn, PlayerInput input){
             spawn->nextSpawnCounter--;
     }
 
-    debug("Point 4\n");
 
     //update bot train
     if( !spawn->isUp && spawn->train != NULL && spawn->train->arrived){
@@ -213,6 +195,5 @@ void updateSpawner(Spawner* spawn, PlayerInput input){
 
     }
 
-    debug("Point 5\n");
     
 }

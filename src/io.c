@@ -1,8 +1,5 @@
 #include "include/io.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <wchar.h>
-#include "include/globals.h"
+
 
 wchar_t** loadSpriteFromFile(char* pathToFile)
 {
@@ -56,8 +53,8 @@ wchar_t** loadSpriteFromFile(char* pathToFile)
     return sprite;
 }
 
-void destroySprite(int** sprite){
-    for(int i=0; i< MAX_COLUMNS; i++){
+void destroySprite(wchar_t** sprite){
+    for(int i=0; i< MAX_LINES; i++){
         free(sprite[i]);
     }
     free(sprite);

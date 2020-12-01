@@ -101,11 +101,7 @@ Train* train_create(int lane)
 
 void train_destroy(Train* train)
 {
-    for(int i=0; i<MAX_LINES; i++)
-    {
-        free(train->spriteTrain.img[i]);
-    }
-    free(train->spriteTrain.img);
+    destroySprite(train->spriteTrain.img);
 
     free(train);
 }

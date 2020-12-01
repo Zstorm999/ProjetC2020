@@ -17,6 +17,10 @@ int main()
     system("tput civis"); //disable cursor
     srand(time(NULL));
 
+    Train** trains = NULL;
+    Spawner* spawnUp = NULL;
+    Spawner* spawnDown = NULL;
+
     while(1){//general menu loop
         system("clear");
 
@@ -24,9 +28,7 @@ int main()
 
         initDisp();
 
-        Train** trains= initTrains();
-        Spawner* spawnUp = NULL;
-        Spawner* spawnDown = NULL;
+        trains = initTrains();
         int spawnerUpdate = 0;
 
         if(next == 0){
@@ -41,6 +43,7 @@ int main()
 
         while(1){
             //manage input here
+            placec(600, 0, '\0', 'w');
             char key = key_pressed();
 
             PlayerInput direction = NONE;
@@ -102,9 +105,17 @@ int main()
         //free spawners and trains here
         if(spawnUp != NULL) destroySpawner(spawnUp);
         if(spawnDown != NULL) destroySpawner(spawnDown);
+        if(trains[0] != NULL) train_destroy(trains[0]);
+        if(trains[1] != NULL) train_destroy(trains[1]);
+
 
     }
     quit:
+
+    if(spawnUp != NULL) destroySpawner(spawnUp);
+    if(spawnDown != NULL) destroySpawner(spawnDown);
+    if(trains[0] != NULL) train_destroy(trains[0]);
+    if(trains[1] != NULL) train_destroy(trains[1]);
     
     system("tput cnorm"); //enable cursor
 

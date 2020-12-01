@@ -34,6 +34,11 @@ Human* createHuman(int x, int y, Spawner* creator){
 }
 
 void destroyHuman(Human* person){
+    if(person == NULL) return;
+
+    destroySprite(person->sprite.img);
+
+    destroyHuman(person->next);
     free(person);
 }
 
