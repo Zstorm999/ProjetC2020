@@ -24,6 +24,7 @@ typedef struct _pointL{
     struct _pointL* next;
 } _pointL;
 
+#define MAX_HUMANS 20
 
 //responsible for creating and handling humans
 typedef struct Spawner{
@@ -32,6 +33,11 @@ typedef struct Spawner{
     int nbPersons;
     struct _pointL* spawnPoints;
     int nbSPoints;
+
+    int yMin, yMax;
+    int nextSpawnCounter;
+
+    sprite** renderArray;
     
     //reference for all Humans to use
     char** objMap;
@@ -61,6 +67,7 @@ struct Human{
 Human* createHuman(int x, int y, struct Spawner* creator); //must provide the two trains, the train will then be chosen using the human's y pos
 void destroyHuman(Human* person);
 void moveHuman(Human* person);
+Human* appendHuman(Human* list, int x, int y, Spawner* creator);
 
 Spawner* createSpawner();
 void destroySpawner(Spawner* spawn);

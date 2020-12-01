@@ -1,7 +1,6 @@
 #include "include/spawner.h"
 
 Human* createHuman(int x, int y, Spawner* creator){
-    debug("entered\n");
 
     Human* person = (Human*)malloc(sizeof(Human));
     if(!person){
@@ -13,7 +12,12 @@ Human* createHuman(int x, int y, Spawner* creator){
     setRectDims(&person->sprite.container, x, y, 0, 1, 0, 2);
     person->sprite.color = 'y';
     person->sprite.maskMap = NULL;
-    person->sprite.nextSprite = NULL;
+    person->sprite.nextSprite = (sprite**)calloc(1, sizeof(sprite*));
+    if(!person->sprite.nextSprite){
+        fprintf(stderr, "Unable to allocate memory for next sprite array");
+        return NULL;
+    }
+
     person->sprite.spriteName = L"Bob";
 
 
@@ -22,8 +26,9 @@ Human* createHuman(int x, int y, Spawner* creator){
     person->creator = creator;
 
     //we need at least 1 for counter to work
-    person->counter = 1 + (rand()%30);
+    person->counter = 10 + (rand()%90);
     person->orientation = 0;
+
 
     return person;
 }
@@ -32,22 +37,33 @@ void destroyHuman(Human* person){
     free(person);
 }
 
+Human* appendHuman(Human* list, int x, int y, Spawner* creator){
+    if(list == NULL) 
+        return createHuman(x, y, creator);
+    else{
+        list->next = appendHuman(list->next, x, y, creator);
+        return list;
+    }
+}
 
 //returns 1 on success, 0 on failure
 int tryMove(Human* person, double angle){
     person->orientation += angle;
 
+
     int xtry = round(cos(person->orientation));
     int ytry = round(sin(person->orientation));
+
 
     //converting coords 
     int futureX = person->sprite.container.x + xtry;
     int futureY = person->sprite.container.y + ytry + 2;
 
+
     char obj = person->creator->objMap[futureY][futureX];
 
+
     if(obj != '0' && obj != 'd'){
-        debug("Entered\n");
 
         sprite* Bg = person->creator->bg;
         //Bg->color = 'e';
@@ -73,7 +89,7 @@ int tryMove(Human* person, double angle){
 
 void moveHuman(Human* person){
     int next = rand()%100;
-    
+
 
     switch (person->movType)
     {
@@ -114,19 +130,24 @@ void moveHuman(Human* person){
 
     case SPAWNING:
     //when spawning, humans wills always go on a straight line for some time
+
         if(!tryMove(person, 0))
             if(!tryMove(person, -PI/2))
                 if(!tryMove(person, PI/2))
                     tryMove(person, PI);
 
+
         person->counter--;
         if(person->counter == 0){
             person->movType = RANDOM;
         }
+
+
         break;
 
     default:
         break;
     }
+
 
 }

@@ -10,8 +10,8 @@
       0         s s s s               s s s s                        000    000       s s s s           000    s s s s      0  1: Should not go there
       000                                                                                                                   0  d: Die
        0E                                                                                                                   0  M: Train gate
-       0E                                                                                                                   0  S: Exit
-      000                                                                                                                   0  E: Entrance     
+       0E                                                                                                                   0  S: exit
+      000                                                                                                                   0  e: entrance     
       0                                                                                                                     0  s: Seats     
       0                                                                                                                     0      
       0                                                                                                                     0     

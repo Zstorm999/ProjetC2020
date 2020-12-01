@@ -37,7 +37,6 @@ int main()
 
         //manage display here
         updateSpawner(spawnUp);
-        showSprite(&spawnUp->personList->sprite, 1);
         
         updateTrains(Trains);
 

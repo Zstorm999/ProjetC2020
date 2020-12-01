@@ -13,7 +13,6 @@ _pointL* _pointLCreate(int x, int y){
     point->y = y;
     point->next = NULL;
 
-    debug("done without problems\n");
 
     return point;
 }
@@ -46,9 +45,13 @@ Spawner* createSpawner(){
     }
 
     spawn->personList = NULL;
+    spawn->nbPersons = 0;
     spawn->spawnPoints = NULL;
+    spawn->nbSPoints = 0;
     spawn->objMap = NULL;
     spawn->bg = NULL;
+
+    spawn->nextSpawnCounter = 5;
 
     return spawn;
 }
@@ -69,6 +72,9 @@ void destroySpawner(Spawner* spawn){
 }
 
 Spawner* initSpawner(int yMin, int yMax, char spawnChar){
+
+    debug("init\n");
+
     Spawner* spawn = createSpawner();
     if(!spawn){
         return NULL;
@@ -77,6 +83,14 @@ Spawner* initSpawner(int yMin, int yMax, char spawnChar){
     spawn->bg = getBackground();
     spawn->objMap = loadObjectMap("data/objMap.txt");
 
+    spawn->renderArray = (sprite**)calloc(yMax - yMin, sizeof(sprite*));
+    if(!spawn->renderArray){
+        fprintf(stderr, "Error while allocating render array\n");
+        return NULL;
+    }
+
+    spawn->yMin = yMin;
+    spawn->yMax = yMax;
 
     //loading spawner position
     for(int i=yMin; i<yMax; i++){
@@ -84,6 +98,7 @@ Spawner* initSpawner(int yMin, int yMax, char spawnChar){
             //if spawnable tile, we add it to the list
             if(spawn->objMap[i][j] == spawnChar){
                 spawn->spawnPoints =  _pointLAppend(spawn->spawnPoints, i, j);
+                spawn->nbSPoints++;
             }
         }
     }
@@ -91,19 +106,68 @@ Spawner* initSpawner(int yMin, int yMax, char spawnChar){
     //always spawn a human at the first found spawnPoint (y is -1 cause sprite position and real position differ)
     spawn->personList = createHuman((spawn->spawnPoints->x) - 3 , (spawn->spawnPoints->y) + 2 , spawn);
 
+    debug("outinit\n");
+
     return spawn;
 }
 
 //apply moveHuman to all Humans currently used by spawner  
 void updateSpawner(Spawner* spawn){
     //if for whatever reason the spawner is non existent, just drop
+
+    debug("1 ");
+
     if(spawn == NULL) return;
     Human* list = spawn->personList;
 
+
+    for(int i = spawn->yMin; i<spawn->yMax; i++){
+        spawn->renderArray[i - spawn->yMin] = NULL;
+    }
+
+
     while (list != NULL)
     {
+        list->sprite.nextSprite[0] = NULL; //resetting cascade
+
+
         moveHuman(list);
+
+        //adding the sprite in the array
+        int realY = list->sprite.container.y - spawn->yMin;
+
+        spawn->renderArray[realY] =  appendSprite(spawn->renderArray[realY], &list->sprite);
+
         list = list->next;
     }
+    
+
+    if(spawn->nextSpawnCounter == 0  && spawn->nbPersons < MAX_HUMANS){
+        int nbp = spawn->nbSPoints;
+        int pos = rand()%nbp;
+        _pointL* list = spawn->spawnPoints;
+
+        for(int i=0; i < pos; i++){
+            //there should be absolutely no problem here, since linked list is static (I miss vector from C++... T_T )
+            list = list->next;
+        }
+
+        spawn->personList = appendHuman(spawn->personList, list->x - 3, list->y + 2, spawn);
+        spawn->nbPersons++;
+
+        spawn->nextSpawnCounter = FRAMERATE/2  + rand()%(2*FRAMERATE); //spaw between 0.5 and 2.5 sec later
+    }
+    else if(spawn->nbPersons < MAX_HUMANS){
+            spawn->nextSpawnCounter--;
+    }
+
+
+    //rendering sprites
+    for(int i = spawn->yMin; i<spawn->yMax; i++){
+        if(spawn->renderArray[i - spawn->yMin] != NULL){
+            showSprite(spawn->renderArray[i-spawn->yMin], 1);
+        }
+    }
+
     
 }

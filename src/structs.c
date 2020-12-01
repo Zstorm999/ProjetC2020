@@ -8,3 +8,9 @@ void setRectDims(Rectangle* rect, int x, int y, int xMin, int xMax, int yMin, in
     rect->yMin = yMin;
     rect->yMax = yMax;
 }
+
+sprite* appendSprite(sprite* list, sprite* ptr){
+    if(list == NULL) return ptr;
+    list->nextSprite[0] = appendSprite(list->nextSprite[0], ptr);
+    return list;
+}
