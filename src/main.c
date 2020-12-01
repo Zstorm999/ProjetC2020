@@ -20,7 +20,7 @@ int main()
     while(1){//general menu loop
         system("clear");
 
-        int next = manageMenu(); // return 0: classic mode, return 1: fast mode (because it's easy to implement ^^)
+        int next = manageMenu(); // return 0: classic mode, return 1: only trains (because we are running out of time ^^)
 
         initDisp();
 
