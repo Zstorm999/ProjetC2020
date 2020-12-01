@@ -24,17 +24,18 @@ int main()
 
         initDisp();
 
-        Train** Trains= initTrains();
+        Train** trains= initTrains();
         Spawner* spawnUp = NULL;
         Spawner* spawnDown = NULL;
+        int spawnerUpdate = 0;
 
         if(next == 0){
-            bool playerUp;
-            if(rand()%2 == 0) playerUp = true;
-            else playerUp = false;            
+            bool isPlayerUp;
+            if(rand()%2 == 0) isPlayerUp = true;
+            else isPlayerUp = false;            
 
-            spawnUp = initSpawner(0, 20, 'E', playerUp);
-            spawnDown = initSpawner(21, 38, 'E', !playerUp);
+            spawnUp = initSpawner(0, 20, 'E', isPlayerUp, trains[0], true);
+            spawnDown = initSpawner(21, 38, 'E', !isPlayerUp, trains[1], false); //no need to update a train
         }
 
 
@@ -80,11 +81,19 @@ int main()
                     break;
             }
 
+
             //manage display here
-            updateSpawner(spawnUp, direction);
-            updateSpawner(spawnDown, direction);
+            if(spawnerUpdate == 0){
+                updateSpawner(spawnUp, direction);
+                updateSpawner(spawnDown, direction);
+                spawnerUpdate = 1;
+            }
+            else{
+                spawnerUpdate = 0;
+            }
+
             
-            updateTrains(Trains);
+            updateTrains(trains);
 
             usleep(TICK_INTERVAL);
         }
@@ -92,6 +101,7 @@ int main()
         menu:
         //free spawners and trains here
         if(spawnUp != NULL) destroySpawner(spawnUp);
+        if(spawnDown != NULL) destroySpawner(spawnDown);
 
     }
     quit:

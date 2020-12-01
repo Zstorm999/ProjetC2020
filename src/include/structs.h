@@ -25,5 +25,6 @@ typedef struct sprite
 
 void setRectDims(Rectangle* rect, int x, int y, int xMin, int xMax, int yMin, int yMax); 
 sprite* appendSprite(sprite* list, sprite* ptr);
+sprite* getLastSprite(sprite* list);
 
 #endif //_STRUCT_H

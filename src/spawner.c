@@ -72,7 +72,7 @@ void destroySpawner(Spawner* spawn){
     free(spawn);
 }
 
-Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer){
+Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer, Train* train, bool isUp){
 
     Spawner* spawn = createSpawner();
     if(!spawn){
@@ -81,6 +81,7 @@ Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer){
 
     spawn->bg = getBackground();
     spawn->objMap = loadObjectMap("data/objMap.txt");
+    spawn->train = train;
 
     spawn->renderArray = (sprite**)calloc(yMax - yMin, sizeof(sprite*));
     if(!spawn->renderArray){
@@ -186,11 +187,30 @@ void updateSpawner(Spawner* spawn, PlayerInput input){
 
     debug("Point 4\n");
 
+    //update bot train
+    if( !spawn->isUp && spawn->train != NULL && spawn->train->arrived){
+        int yMin = spawn->train->spriteTrain.container.yMin;
+        spawn->train->spriteTrain.container.yMin = spawn->train->spriteTrain.container.yMax -1;
+        showSprite(&spawn->train->spriteTrain, 0);
+        spawn->train->spriteTrain.container.yMin = yMin;
+
+    }
+
     //rendering sprites
     for(int i = spawn->yMin; i<spawn->yMax; i++){
         if(spawn->renderArray[i - spawn->yMin] != NULL){
             showSprite(spawn->renderArray[i-spawn->yMin], 1);
         }
+    }
+
+    //update top train
+    if(spawn->isUp && spawn->train != NULL && spawn->train->arrived){ //no need to render a train if there is no train
+
+        int yMax = spawn->train->spriteTrain.container.yMax;
+        spawn->train->spriteTrain.container.yMax = 2;
+        showSprite(&spawn->train->spriteTrain, 0);
+        spawn->train->spriteTrain.container.yMax = yMax;
+
     }
 
     debug("Point 5\n");
