@@ -25,7 +25,7 @@
 #include "io.h"
 #include "globals.h"
 #include "displayManager.h"
-#include "train.h"
+#include "train.h" 
 
 typedef struct Human Human;
 
@@ -53,13 +53,14 @@ typedef struct Spawner{
     int nextSpawnCounter;
     
     bool containsPlayer;
-
+    bool isUp;
 
     sprite** renderArray;
     
     //reference for all Humans to use
     char** objMap;
     sprite* bg;
+    Train* train;
 
 } Spawner;
 
@@ -91,7 +92,7 @@ Human* appendHuman(Human* list, int x, int y, Spawner* creator);
 
 Spawner* createSpawner();
 void destroySpawner(Spawner* spawn);
-Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer);
+Spawner* initSpawner(int yMin, int yMax, char spawnChar, bool containsPlayer, Train* train, bool isUp);
 void updateSpawner(Spawner* spawn, PlayerInput input);
 
 #endif //_SPAWNER_H

@@ -27,6 +27,10 @@ int main()
     
     srand(time(NULL));
 
+    Train** trains = NULL;
+    Spawner* spawnUp = NULL;
+    Spawner* spawnDown = NULL;
+
     while(1){//general menu loop
         system("clear");
 
@@ -36,22 +40,22 @@ int main()
 
         initDisp();
 
-        Train** Trains= initTrains();
-        Spawner* spawnUp = NULL;
-        Spawner* spawnDown = NULL;
+        trains = initTrains();
+        int spawnerUpdate = 0;
 
         if(next == 0){
-            bool playerUp;
-            if(rand()%2 == 0) playerUp = true;
-            else playerUp = false;            
+            bool isPlayerUp;
+            if(rand()%2 == 0) isPlayerUp = true;
+            else isPlayerUp = false;            
 
-            spawnUp = initSpawner(0, 20, 'E', playerUp);
-            spawnDown = initSpawner(21, 38, 'E', !playerUp);
+            spawnUp = initSpawner(0, 20, 'E', isPlayerUp, trains[0], true);
+            spawnDown = initSpawner(21, 38, 'E', !isPlayerUp, trains[1], false); //no need to update a train
         }
 
 
         while(1){
             //manage input here
+            placec(600, 0, '\0', 'w');
             char key = key_pressed();
 
             PlayerInput direction = NONE;
@@ -92,11 +96,19 @@ int main()
                     break;
             }
 
+
             //manage display here
-            updateSpawner(spawnUp, direction);
-            updateSpawner(spawnDown, direction);
+            if(spawnerUpdate == 0){
+                updateSpawner(spawnUp, direction);
+                updateSpawner(spawnDown, direction);
+                spawnerUpdate = 1;
+            }
+            else{
+                spawnerUpdate = 0;
+            }
+
             
-            updateTrains(Trains);
+            updateTrains(trains);
 
             usleep(TICK_INTERVAL);
         }
@@ -104,9 +116,18 @@ int main()
         menu:
         //free spawners and trains here
         if(spawnUp != NULL) destroySpawner(spawnUp);
+        if(spawnDown != NULL) destroySpawner(spawnDown);
+        if(trains[0] != NULL) train_destroy(trains[0]);
+        if(trains[1] != NULL) train_destroy(trains[1]);
+
 
     }
     quit:
+
+    if(spawnUp != NULL) destroySpawner(spawnUp);
+    if(spawnDown != NULL) destroySpawner(spawnDown);
+    if(trains[0] != NULL) train_destroy(trains[0]);
+    if(trains[1] != NULL) train_destroy(trains[1]);
     
     system("tput cnorm"); //enable cursor
 

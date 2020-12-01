@@ -25,3 +25,11 @@ sprite* appendSprite(sprite* list, sprite* ptr){
     list->nextSprite[0] = appendSprite(list->nextSprite[0], ptr);
     return list;
 }
+
+sprite* getLastSprite(sprite* list){
+    if(list == NULL) return NULL;
+    if(list->nextSprite[0] == NULL){
+        return list;
+    }
+    return getLastSprite(list->nextSprite[0]);
+}

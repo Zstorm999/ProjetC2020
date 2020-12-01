@@ -30,6 +30,7 @@ void placec(int y, int x, wchar_t symbol, char color);  //print a char at the se
 char** file2Mask(char* mskFilePath);                    //load a simple file into a matrix used as mask
 char key_pressed();
 char** loadObjectMap(char* path);
+void destroySprite(wchar_t** sprite);
 
 void debug(const char* message);
 
